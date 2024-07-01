@@ -28,7 +28,7 @@
 <summary>김화연 : </summary>
 <div markdown="1">
 
-  0630 : fragments 정리 / sub-plan 페이지 html 작성 / 
+0702: 화연 블로그 작성 페이지, 포스트 페이지 html, 컨트롤러 작성
 
 </div>
 </details>
