@@ -28,8 +28,9 @@
 <summary>김화연 : </summary>
 <div markdown="1">
 
-0702: 화연 블로그 작성 페이지, 포스트 페이지 html, 컨트롤러 작성
-
+0702: 화연 블로그 작성 페이지, 포스트 페이지 html, 컨트롤러 작성 <br>
+0702: css 조정, post 컨트롤러 수정
+<br>
 </div>
 </details>
 <details>
@@ -55,7 +56,7 @@
 <details>
 <summary>김효연 : </summary>
 <div markdown="1">
-240628 : "noticeboard" 새로운 도메인 추가
+
 
 </div>
 </details>
