@@ -1,0 +1,55 @@
+/* 기본 스타일 초기화 */
+body, h1, h2, h3, p, div, header, section {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 전체 레이아웃 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 800px; /* 최대 너비 설정 */
+    margin: auto; /* 중앙 정렬 */
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.title {
+    margin-bottom: 20px; /* 제목과 내용 사이 여백 */
+    border-bottom: 1px solid #ccc; /* 제목과 내용 구분선 */
+    padding-bottom: 10px; /* 구분선 아래 여백 */
+}
+
+.title h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.content {
+    margin-top: 20px; /* 내용 위 여백 */
+    line-height: 1.6; /* 줄간격 */
+}
+
+.content p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+section {
+    padding: 20px;
+    background-color: white;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.inner h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+}
