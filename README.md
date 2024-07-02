@@ -54,9 +54,9 @@
 </div>
 </details>
 <details>
-<summary>김효연 : </summary>
+<summary>김효연 :  </summary>
 <div markdown="1">
-
+0702: 깃허브 푸쉬 연습
 
 </div>
 </details>
