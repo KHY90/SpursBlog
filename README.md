@@ -49,7 +49,7 @@
 <details>
 <summary>신주연 : </summary>
 <div markdown="1">
-
+0702 : 주연 블로그 페이지 작성
 
 </div>
 </details>
