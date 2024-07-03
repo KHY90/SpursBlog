@@ -1,7 +1,6 @@
 package com.ohgiraffers.blog.jooyeon.controller;
 
 import com.ohgiraffers.blog.jooyeon.dto.BlogDTO;
-
 import com.ohgiraffers.blog.jooyeon.service.JooyeonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,8 +49,8 @@ public class JooyeonController {
             mv.setViewName("redirect:/jooyeon/regist");
             return mv;
         }
-        int result = jooyeonService.post(blogDTO);
 
+        int result = jooyeonService.post(blogDTO);
 
         if (result <= 0) {
             mv.setViewName("error/page");
@@ -62,6 +61,6 @@ public class JooyeonController {
 
         return mv;
     }
-    }
+}
 
 
