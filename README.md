@@ -1,9 +1,7 @@
-# 여행 공유 블로그 만들기!
+# 개인 블로그 만들기!
 
 1. 프로젝트 개요
 프로젝트 목표 개발 기간 : 6월부터~
-
-
 
 2. 사용 기술
 
@@ -19,7 +17,7 @@
 
 5. 상세 설명
 
-
+각자 개인 스타일의 블로그를 만든다.
 
 
 6. 진행 상황
@@ -28,8 +26,9 @@
 <summary>김화연 : </summary>
 <div markdown="1">
 
-  0630 : fragments 정리 / sub-plan 페이지 html 작성 / 
-
+0702: 화연 블로그 작성 페이지, 포스트 페이지 html, 컨트롤러 작성 <br>
+0702: css 조정, post 컨트롤러 수정
+<br>
 </div>
 </details>
 <details>
@@ -55,7 +54,7 @@
 <details>
 <summary>김효연 : </summary>
 <div markdown="1">
-240628 : "noticeboard" 새로운 도메인 추가
+
 
 </div>
 </details>
