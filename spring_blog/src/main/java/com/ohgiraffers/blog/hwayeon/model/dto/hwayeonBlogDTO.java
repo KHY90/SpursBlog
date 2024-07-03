@@ -1,14 +1,14 @@
 package com.ohgiraffers.blog.hwayeon.model.dto;
 
-public class BlogDTO {
+public class hwayeonBlogDTO {
 
     private String blogTitle;
     private String blogContent;
 
-    public BlogDTO() {
+    public hwayeonBlogDTO() {
     }
 
-    public BlogDTO(String blogTitle, String blogContent) {
+    public hwayeonBlogDTO(String blogTitle, String blogContent) {
         this.blogTitle = blogTitle;
         this.blogContent = blogContent;
     }

@@ -1,5 +1,6 @@
 package com.ohgiraffers.blog.hwayeon.service;
 
+import com.ohgiraffers.blog.hwayeon.model.dto.hwayeonBlogDTO;
 import com.ohgiraffers.blog.hwayeon.model.entity.HwayeonBlog;
 import com.ohgiraffers.blog.hwayeon.repository.HwayeonRepository;
 import com.ohgiraffers.blog.jaesuk.model.dto.BlogDTO;
@@ -43,5 +44,9 @@ public class HwayeonService {
         }
 
         return resultValue;
+    }
+
+    public int post(hwayeonBlogDTO hyblogDTO) {
+        return 0;
     }
 }

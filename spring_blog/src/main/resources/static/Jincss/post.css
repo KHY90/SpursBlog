@@ -1,0 +1,57 @@
+/* 기본 스타일 초기화 */
+body, h1, h2, h3, p, div, header, section {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 전체 레이아웃 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+form-container {
+    max-width: 800px; /* 최대 너비 설정 */
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.container {
+    max-width: 800px; /* 최대 너비 설정 */
+    margin: auto; /* 중앙 정렬 */
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.form-title {
+    margin-bottom: 15px; /* 입력 필드 아래 여백 */
+    width: 100%; /* 부모 요소인 .form-container 너비에 맞춤 */
+}
+
+.form-content {
+    margin-bottom: 50px; /* 입력 필드 아래 여백 */
+    width: 100%; /* 부모 요소인 .form-container 너비에 맞춤 */
+    height: 400px; /* 원하는 높이로 설정 */
+}
+
+.btn-primary {
+    width: 100%; /* 버튼을 폼 너비에 맞추기 */
+}
+section {
+    padding: 20px;
+    background-color: white;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.inner h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+}
