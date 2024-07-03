@@ -51,6 +51,7 @@
 <details>
 <summary>신주연 : </summary>
 <div markdown="1">
+0703 : 주연블로그 수정
 
 
 </div>
