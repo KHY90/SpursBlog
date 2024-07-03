@@ -1,5 +1,8 @@
 # 개인 블로그 만들기!
 
+메인에  실수로 올려서 다시올림.
+
+
 1. 프로젝트 개요
 프로젝트 목표 개발 기간 : 6월부터~
 
@@ -52,9 +55,9 @@
 </div>
 </details>
 <details>
-<summary>김효연 : </summary>
+<summary>김효연 :  </summary>
 <div markdown="1">
-
+0702: 깃허브 푸쉬 연습
 
 </div>
 </details>
