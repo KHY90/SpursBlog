@@ -14,17 +14,18 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/hwayeon")
 public class HwayeonController {
 
-    private final HwayeonService hwayeonService;
-    private hwayeonBlogDTO currentBlog;
+    private final HwayeonService hwayeonService; // HwayeonService 의존성 주입을 위한 필드
+    private hwayeonBlogDTO currentBlog; // 현재 블로그 DTO 필드
 
     @Autowired
     public HwayeonController(HwayeonService hwayeonService) {
-        this.hwayeonService = hwayeonService;
+        this.hwayeonService = hwayeonService; // 생성자를 통한 의존성 주입
     }
 
+    // 메인 페이지 요청 처리
     @GetMapping("/main")
     public String mainPage(Model model) {
-        // 데이터베이스에서 블로그 정보 가져오기
+        // 데이터베이스에서 가져온 가상의 블로그 정보
         String blogTitle = "제목입니다";
         String blogContent = "내용 요약입니다.";
 
@@ -32,25 +33,30 @@ public class HwayeonController {
         model.addAttribute("blogTitle", blogTitle);
         model.addAttribute("blogContent", blogContent);
 
-        return "hwayeon/main";
+        return "hwayeon/main"; // 뷰 이름 반환
     }
 
+    // 게시글 작성 페이지 요청 처리
     @GetMapping("/editpage")
     public String editpagePage() {
-        return "hwayeon/editpage";
+        return "hwayeon/editpage"; // 뷰 이름 반환
     }
 
+    // 포스트 페이지 요청 처리
     @GetMapping("/postpage")
     public String postPage(Model model) {
+        // 현재 블로그가 존재할 경우 데이터 전달
         if (currentBlog != null) {
             model.addAttribute("blogTitle", currentBlog.getBlogTitle());
             model.addAttribute("blogContent", currentBlog.getBlogContent());
         }
-        return "hwayeon/postpage";
+        return "hwayeon/postpage"; // 뷰 이름 반환
     }
 
+    // 포스트 요청 처리
     @PostMapping
     public ModelAndView postBlog(hwayeonBlogDTO hyblogDTO, ModelAndView mv) {
+        // 제목이나 내용이 비어있을 경우 에러 처리를 위한 리다이렉트
         if (hyblogDTO.getBlogTitle() == null || hyblogDTO.getBlogTitle().equals("")) {
             mv.setViewName("redirect:/hwayeon/editpage");
             return mv;
@@ -60,15 +66,16 @@ public class HwayeonController {
             return mv;
         }
 
+        // 서비스를 통해 포스트를 저장하고 결과에 따라 처리
         int result = hwayeonService.post(hyblogDTO);
 
         if (result <= 0) {
-            mv.setViewName("error/page");
+            mv.setViewName("error/page"); // 에러 페이지 뷰 반환
         } else {
-            currentBlog = hyblogDTO;
-            mv.setViewName("redirect:/hwayeon/postpage");
+            currentBlog = hyblogDTO; // 현재 블로그 필드 업데이트
+            mv.setViewName("redirect:/hwayeon/postpage"); // 포스트 페이지 리다이렉트
         }
-
-        return mv;
+        return mv; // ModelAndView 반환
     }
+
 }
