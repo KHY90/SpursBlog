@@ -22,9 +22,9 @@ public class JinheeController {
         this.jinheeService = jinheeService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/main")
     public String indexJinhee(){
-        return "index";
+        return "jinhee/main";
     }
 
     @GetMapping("/post")
