@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,26 +23,67 @@ public class JinheeService {
 
     @Transactional
     public int post(BlogDTO blogDTO) {
+        JinheeBlog newBlog = new JinheeBlog();
+        newBlog.setBlogTitle(blogDTO.getBlogTitle());
+        newBlog.setBlogContent(blogDTO.getBlogContent());
+        newBlog.setCreateDate(new Date());
+
+        JinheeBlog savedBlog = jinheeRepository.save(newBlog);
+
+        return savedBlog != null ? 1 : 0; // 저장 결과에 따라 1 또는 0 반환
+    }
+
+    public List<BlogDTO> getAllBlogs() {
         List<JinheeBlog> jinheeBlogs = jinheeRepository.findAll();
-        // 도메인 로직
-        for (JinheeBlog blog: jinheeBlogs) {
-            if(blog.getBlogTitle().equals(blogDTO.getBlogTitle())){
-                return 0;
-            }
+        List<BlogDTO> blogDTOs = new ArrayList<>();
+
+        for (JinheeBlog blog : jinheeBlogs) {
+            BlogDTO blogDTO = new BlogDTO();
+            blogDTO.setId(blog.getId());
+            blogDTO.setBlogTitle(blog.getBlogTitle());
+            blogDTO.setBlogContent(blog.getBlogContent());
+            blogDTO.setCreateDate(blog.getCreateDate());
+            blogDTOs.add(blogDTO);
         }
 
-        JinheeBlog saveBlog = new JinheeBlog();
-        saveBlog.setBlogContent(blogDTO.getBlogContent());
-        saveBlog.setBlogTitle(blogDTO.getBlogTitle());
-        saveBlog.setCreateDate(new Date());
-        JinheeBlog result  = jinheeRepository.save(saveBlog);
+        return blogDTOs;
+    }
 
-        int resultValue = 0;
-
-        if(result != null){
-            resultValue = 1;
+    public BlogDTO getBlogById(Long id) {
+        JinheeBlog blog = jinheeRepository.findById(id).orElse(null);
+        if (blog != null) {
+            BlogDTO blogDTO = new BlogDTO();
+            blogDTO.setId(blog.getId());
+            blogDTO.setBlogTitle(blog.getBlogTitle());
+            blogDTO.setBlogContent(blog.getBlogContent());
+            blogDTO.setCreateDate(blog.getCreateDate());
+            return blogDTO;
         }
+        return null;
+    }
 
-        return resultValue;
+    @Transactional
+    public void deleteBlogById(Long id) {
+        jinheeRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void saveBlog(BlogDTO blogDTO) {
+        JinheeBlog blog = jinheeRepository.findById(blogDTO.getId()).orElse(null);
+        if (blog != null) {
+            blog.setBlogTitle(blogDTO.getBlogTitle());
+            blog.setBlogContent(blogDTO.getBlogContent());
+            jinheeRepository.save(blog);
+        }
+    }
+
+    @Transactional
+    public void updateBlog(BlogDTO blogDTO) {
+        JinheeBlog blog = jinheeRepository.findById(blogDTO.getId()).orElse(null);
+        if (blog != null) {
+            blog.setBlogTitle(blogDTO.getBlogTitle());
+            blog.setBlogContent(blogDTO.getBlogContent());
+            jinheeRepository.save(blog);
+        }
     }
 }

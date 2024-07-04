@@ -9,37 +9,35 @@ import java.util.Date;
 public class JinheeBlog {
 
     @Id
-    @Column(name = "blog_no")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int blogNo; // Interger랑 차이는 뭐지?
+    @Column(name = "blog_id")
+    private Long id;
 
-    @Column(name = "blog_title", unique = true, nullable = false)
+    @Column(name = "blog_title", nullable = false)
     private String blogTitle;
 
     @Column(name = "blog_content", nullable = false, length = 5000)
     private String blogContent;
 
-    @Column(name = "creation_date")
+    @Column(name = "creation_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
-
 
     public JinheeBlog() {
     }
 
-    public JinheeBlog(int blogNo, String blogTitle, String blogContent, Date createDate) {
-        this.blogNo = blogNo;
+    public JinheeBlog(String blogTitle, String blogContent, Date createDate) {
         this.blogTitle = blogTitle;
         this.blogContent = blogContent;
         this.createDate = createDate;
     }
 
-    public int getBlogNo() {
-        return blogNo;
+    public Long getId() {
+        return id;
     }
 
-    public void setBlogNo(int blogNo) {
-        this.blogNo = blogNo;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getBlogTitle() {
@@ -69,7 +67,7 @@ public class JinheeBlog {
     @Override
     public String toString() {
         return "JinheeBlog{" +
-                "blogNo=" + blogNo +
+                "id=" + id +
                 ", blogTitle='" + blogTitle + '\'' +
                 ", blogContent='" + blogContent + '\'' +
                 ", createDate=" + createDate +

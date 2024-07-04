@@ -5,10 +5,10 @@ import com.ohgiraffers.blog.jinhee.service.JinheeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/jinhee")
@@ -32,13 +32,20 @@ public class JinheeController {
         return "jinhee/post";
     }
 
-
-
     @GetMapping("/postpage")
     public String postPage(Model model) {
         if (currentBlog != null) {
             model.addAttribute("blogTitle", currentBlog.getBlogTitle());
             model.addAttribute("blogContent", currentBlog.getBlogContent());
+        }
+        return "jinhee/postpage";
+    }
+    @GetMapping("/postpage/{id}")
+    public String postPage(@PathVariable Long id, Model model) {
+        BlogDTO blogDTO = jinheeService.getBlogById(id);
+        if (blogDTO != null) {
+            model.addAttribute("blogTitle", blogDTO.getBlogTitle());
+            model.addAttribute("blogContent", blogDTO.getBlogContent());
         }
         return "jinhee/postpage";
     }
@@ -66,9 +73,43 @@ public class JinheeController {
         return mv;
     }
 
-    @GetMapping("/review")
-    public String share() {
-        return "/review";
+
+
+    @GetMapping("/edit/{id}")
+    public String editBlog(@PathVariable Long id, Model model) {
+        BlogDTO blogDTO = jinheeService.getBlogById(id);
+        if (blogDTO == null) {
+            return "redirect:/jinhee/journey";
+        }
+        model.addAttribute("blogDTO", blogDTO);
+        return "jinhee/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editSubmit(@ModelAttribute BlogDTO blogDTO) {
+        jinheeService.updateBlog(blogDTO);
+        return "redirect:/jinhee/journey";
+    }
+    @GetMapping("/delete/{id}")
+    public String deleteBlog(@PathVariable Long id, Model model) {
+        BlogDTO blogDTO = jinheeService.getBlogById(id);
+        if (blogDTO == null) {
+            return "redirect:/jinhee/journey";
+        }
+        model.addAttribute("blogDTO", blogDTO);
+        return "jinhee/delete";
+    }
+
+    @GetMapping("/delete/confirm/{id}")
+    public String deleteConfirm(@PathVariable Long id) {
+        jinheeService.deleteBlogById(id);
+        return "redirect:/jinhee/journey";
+    }
+    @GetMapping("/journey")
+    public String share(Model model) {
+        List<BlogDTO> blogs = jinheeService.getAllBlogs();
+        model.addAttribute("blogs", blogs);
+        return "jinhee/journey";
     }
 
 
