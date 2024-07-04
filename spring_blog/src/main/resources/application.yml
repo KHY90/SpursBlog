@@ -10,7 +10,7 @@ spring:
           auto: create
     database: mysql
   datasource:
-    url: jdbc:mysql://localhost:3306/gangnam
-    username: gangnam
-    password: gangnam
+    url: jdbc:mysql://localhost:3306/spurscoder
+    username: myuser
+    password: mypassword
     driver-class-name: com.mysql.cj.jdbc.Driver
