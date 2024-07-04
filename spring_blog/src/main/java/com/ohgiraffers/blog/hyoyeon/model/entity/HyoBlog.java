@@ -17,14 +17,26 @@ public class HyoBlog {
     private String blogTitle;
 
     @Column(name = "blog_content", nullable = false, length = 5000 )
-    private String blogContet;
+    private String blogContent;
 
     @Column(name = "creation_date")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
+    private Date createdDate;
+
+    @Column(name = "updation_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedDate;
 
     public HyoBlog( ) {
 
+    }
+
+    public HyoBlog(int blogNo, String blogTitle, String blogContet, Date createdDate, Date updatedDate) {
+        this.blogNo = blogNo;
+        this.blogTitle = blogTitle;
+        this.blogContent = blogContet;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
     }
 
     public int getBlogNo() {
@@ -43,27 +55,28 @@ public class HyoBlog {
         this.blogTitle = blogTitle;
     }
 
-    public String getBlogContet() {
-        return blogContet;
+    public String getBlogContent() {
+        return blogContent;
     }
 
-    public void setBlogContet(String blogContet) {
-        this.blogContet = blogContet;
+    public void setBlogContent(String blogContent) {
+        this.blogContent = blogContent;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
-    public HyoBlog(int blogNo, String blogTitle, String blogContet, Date createDate) {
-        this.blogNo = blogNo;
-        this.blogTitle = blogTitle;
-        this.blogContet = blogContet;
-        this.createDate = createDate;
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
     @Override
@@ -71,8 +84,10 @@ public class HyoBlog {
         return "HyoBlog{" +
                 "blogNo=" + blogNo +
                 ", blogTitle='" + blogTitle + '\'' +
-                ", blogContet='" + blogContet + '\'' +
-                ", createDate=" + createDate +
+                ", blogContet='" + blogContent + '\'' +
+                ", createdDate=" + createdDate +
+                ", updatedDate=" + updatedDate +
                 '}';
     }
+
 }
