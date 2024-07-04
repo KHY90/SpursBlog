@@ -11,7 +11,7 @@ public class HwayeonBlog {
     @Id
     @Column(name = "blog_no")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int blogNo;
+    private Integer blogNo;
 
     @Column(name = "blog_title", unique = true, nullable = false)
     private String blogTitle;
@@ -23,21 +23,29 @@ public class HwayeonBlog {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
+    @Column(name = "img_url")
+    private String imgUrl;
+
+    @Column(name = "category")
+    private String category;
+
     public HwayeonBlog() {
     }
 
-    public HwayeonBlog(int blogNo, String blogTitle, String blogContent, Date createDate) {
+    public HwayeonBlog(Integer blogNo, String blogTitle, String blogContent, Date createDate, String imgUrl, String category) {
         this.blogNo = blogNo;
         this.blogTitle = blogTitle;
         this.blogContent = blogContent;
         this.createDate = createDate;
+        this.imgUrl = imgUrl;
+        this.category = category;
     }
 
-    public int getBlogNo() {
+    public Integer getBlogNo() {
         return blogNo;
     }
 
-    public void setBlogNo(int blogNo) {
+    public void setBlogNo(Integer blogNo) {
         this.blogNo = blogNo;
     }
 
@@ -65,6 +73,22 @@ public class HwayeonBlog {
         this.createDate = createDate;
     }
 
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     @Override
     public String toString() {
         return "HwayeonBlog{" +
@@ -72,6 +96,8 @@ public class HwayeonBlog {
                 ", blogTitle='" + blogTitle + '\'' +
                 ", blogContent='" + blogContent + '\'' +
                 ", createDate=" + createDate +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", category='" + category + '\'' +
                 '}';
     }
 }
