@@ -1,76 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- 문자 인코딩 설정 -->
     <meta charset="UTF-8">
-    <!-- 페이지 제목 -->
     <title>Hwayeon blog</title>
-    <!-- 외부 CSS 파일 주석 처리 -->
-    <!-- <link rel="stylesheet" th:href="@{/css/header.css}"> -->
 </head>
 <body>
-<!-- 헤더 시작 -->
 <header>
-    <!-- 헤더 로고와 링크 -->
     <div class="headerlogo">
         <a th:href="@{/}">
-            <!-- 로고 이미지 -->
             <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjEyMTVfMjc3%2FMDAxNjcxMDkwNjU3NjAx.uy05CjAv_4VymZIj8qCXAei3LEHvgFy_llwv_uB5ubgg.4DUvwuY6JLlmv5BUTBIAKvRz-T2vXJCO17EQPPJ-_-sg.PNG.y2kwooga%2F%25B3%25D7%25C0%25CC%25B9%25F6_AI-05.png&type=sc960_832"
                  alt="로고 이미지">
         </a>
     </div>
-    <!-- 사이트 제목 -->
     <div class="subject">
         hwayeon blog
     </div>
-    <!-- 검색과 게시글 등록 버튼 영역 -->
     <div class="serch">
-        <!-- 게시글 등록 버튼 -->
+        <div class="home">
+            <button type="button" class="btn btn-primary" onclick="location.href='/hwayeon/main'"> 홈 </button>
+        </div>
         <div class="writebutton">
             <button type="button" class="btn btn-primary" onclick="location.href='/hwayeon/editpage'">게시글 등록</button>
         </div>
-        <!-- 검색 아이콘 이미지 -->
         <img src="https://search.pstatic.net/sunny/?src=https%3A%2F%2Fe7.pngegg.com%2Fpngimages%2F381%2F351%2Fpng-clipart-computer-icons-google-search-icon-design-magnifying-glass-cartoon-logo-android.png&type=sc960_832"
              alt="검색 아이콘">
     </div>
 </header>
-<!-- 헤더 끝 -->
 
-<!-- 메인 부분 시작 -->
 <section>
-    <!-- 컨테이너 그리드 설정 -->
-    <div class="container">
-        <!-- 왼쪽 썸네일 영역 -->
+    <div class="container" th:each="allPosts : ${posts}">
         <div class="thumbnail">
             썸네일
         </div>
-        <!-- 오른쪽 요약 영역 -->
         <div class="Summary">
-            <!-- 블로그 제목 표시 -->
             <div class="blogtitle">
-                <!-- 제목 출력 및 Thymeleaf 변수 사용 예시 -->
-                <h3>제목: <span th:text="${blogTitle}">블로그 제목</span></h3>
+                <h3>제목: <span th:text="${allPosts.blogTitle}">블로그 제목</span></h3>
             </div>
-            <!-- 블로그 내용 표시 -->
             <div class="blogcontents">
-                <!-- 내용 출력 및 Thymeleaf 변수 사용 예시 -->
-                <p>내용: <span th:text="${blogContent}">블로그 내용</span></p>
+                <p>내용: <span th:text="${allPosts.blogContent}">블로그 내용</span></p>
             </div>
         </div>
     </div>
 </section>
-<!-- 메인 부분 끝 -->
-
-<!-- 푸터 부분 시작 -->
-<footer>
-    풋터
-</footer>
-<!-- 푸터 부분 끝 -->
-
-</body>
 
 <style>
-    /* 전체 레이아웃 설정 */
     body {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -78,7 +51,6 @@
         gap: 20px;
     }
 
-    /* 헤더 스타일 설정 */
     header {
         grid-column: 1 / 4;
         text-align: center;
@@ -90,26 +62,28 @@
         border: 1px solid black;
     }
 
-    /* 로고 이미지 스타일 설정 */
     .headerlogo a img {
+        height: 30px;
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
-        margin: 0px 5px; /* 로고 이미지 여백 설정 */
+        margin: 0px 5px;
     }
 
-    /* 검색 아이콘 이미지 스타일 설정 */
+    .serch {
+        display: flex;
+    }
+
     .serch img {
         height: 30px;
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
-        margin: 0px 5px; /* 검색 아이콘 여백 설정 */
+        margin: 0px 5px;
     }
 
-    /* 메인 섹션 그리드 설정 */
     section {
-        grid-template-columns: 1fr 2fr; /* 왼쪽 1fr, 오른쪽 2fr 비율로 설정 */
+        grid-template-columns: 1fr 2fr;
         grid-template-rows: auto auto;
         gap: 20px;
         width: 100%;
@@ -117,7 +91,6 @@
         border: 1px solid black;
     }
 
-    /* 컨테이너 그리드 설정 */
     .container {
         display: grid;
         grid-template-columns: 1fr 2fr;
@@ -125,35 +98,24 @@
         gap: 20px;
     }
 
-    /* 썸네일 영역 스타일 설정 */
     .thumbnail {
-        grid-column: 1 / 2; /* 왼쪽 열에 위치 */
-        grid-row: 2 / 3; /* 두 번째 행에 위치 */
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
         text-align: center;
         background-color: #f2f2f2;
         padding: 20px 0;
     }
 
-    /* 요약 영역 스타일 설정 */
     .Summary {
-        grid-column: 2 / 3; /* 오른쪽 열에 위치 */
-        grid-row: 2 / 3; /* 두 번째 행에 위치 */
+        grid-column: 2 / 3;
+        grid-row: 2 / 3;
     }
 
-    /* 게시글 등록 버튼 위치 및 스타일 설정 */
     .writebutton {
-        grid-column: 2 / 3; /* 오른쪽 열에 위치 */
-        grid-row: 1 / 2; /* 첫 번째 행에 위치 */
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
         text-align: right;
     }
-
-    /* 푸터 스타일 설정 */
-    footer {
-        grid-column: 1 / 4; /* 모든 열에 걸쳐 위치 */
-        text-align: center;
-        background-color: #f2f2f2;
-        padding: 20px 0;
-    }
-
 </style>
+</body>
 </html>
