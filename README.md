@@ -44,6 +44,9 @@
 <details>
 <summary>목진희 : </summary>
 <div markdown="1">
+0702: Jin's journey 블로그 메인페이지, 작성페이지, post페이지 완성
+0702: Team file과 merge 및 수정
+0703: Journey 페이지 작성.
 
 
 </div>
