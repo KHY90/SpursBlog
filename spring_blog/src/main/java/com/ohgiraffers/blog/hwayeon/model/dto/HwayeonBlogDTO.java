@@ -2,33 +2,23 @@ package com.ohgiraffers.blog.hwayeon.model.dto;
 
 import javax.xml.crypto.Data;
 
-public class hwayeonBlogDTO {
+public class HwayeonBlogDTO {
 
-    private Integer blogNo;
     private String blogTitle;
     private String blogContent;
     private Data createDate;
     private String imgUrl;
     private String category;
 
-    public hwayeonBlogDTO() {
+    public HwayeonBlogDTO() {
     }
 
-    public hwayeonBlogDTO(Integer blogNo, String blogTitle, String blogContent, Data createDate, String imgUrl, String category) {
-        this.blogNo = blogNo;
+    public HwayeonBlogDTO(Integer blogNo, String blogTitle, String blogContent, Data createDate, String imgUrl, String category) {
         this.blogTitle = blogTitle;
         this.blogContent = blogContent;
         this.createDate = createDate;
         this.imgUrl = imgUrl;
         this.category = category;
-    }
-
-    public Integer getBlogNo() {
-        return blogNo;
-    }
-
-    public void setBlogNo(Integer blogNo) {
-        this.blogNo = blogNo;
     }
 
     public String getBlogTitle() {
@@ -74,7 +64,6 @@ public class hwayeonBlogDTO {
     @Override
     public String toString() {
         return "hwayeonBlogDTO{" +
-                "blogNo=" + blogNo +
                 ", blogTitle='" + blogTitle + '\'' +
                 ", blogContent='" + blogContent + '\'' +
                 ", createDate=" + createDate +
