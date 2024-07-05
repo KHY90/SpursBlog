@@ -31,7 +31,8 @@ public class JinheeController {
     public String post(){
         return "jinhee/post";
     }
-
+    //post 글작성
+    //postpage 글 반환
     @GetMapping("/postpage")
     public String postPage(Model model) {
         if (currentBlog != null) {
