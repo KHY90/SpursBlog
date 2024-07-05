@@ -8,25 +8,31 @@ body, h1, h2, h3, p, div, header, section {
 /* 전체 레이아웃 */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #ffffff;
 }
 
-form-container {
-    max-width: 800px; /* 최대 너비 설정 */
+.form-container {
+    width: 95%; /* 화면 너비의 95%로 설정 */
+    max-width: 1200px; /* 최대 너비 설정 */
+    min-height: 600px; /* 최소 높이 설정 */
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 20px auto; /* 가운데 정렬 및 상하 간격 추가 */
 }
+
 .container {
-    max-width: 800px; /* 최대 너비 설정 */
+    width: 95%; /* 화면 너비의 95%로 설정 */
+    max-width: 1200px; /* 최대 너비 설정 */
     margin: auto; /* 중앙 정렬 */
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-top: 20px; /* 상단 간격 추가 */
 }
 
 .form-title {
@@ -37,12 +43,14 @@ form-container {
 .form-content {
     margin-bottom: 50px; /* 입력 필드 아래 여백 */
     width: 100%; /* 부모 요소인 .form-container 너비에 맞춤 */
-    height: 400px; /* 원하는 높이로 설정 */
+    height: 100%; /* 100% 높이로 설정 */
+    min-height: 400px; /* 최소 높이 설정 */
 }
 
 .btn-primary {
     width: 100%; /* 버튼을 폼 너비에 맞추기 */
 }
+
 section {
     padding: 20px;
     background-color: white;
