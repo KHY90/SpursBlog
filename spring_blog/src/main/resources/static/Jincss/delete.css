@@ -1,0 +1,11 @@
+/* styles.css 또는 main.css에 추가 */
+.container {
+    width: 80%; /* 적절한 너비 설정 */
+    margin: 0 auto; /* 가운데 정렬을 위한 자동 마진 설정 */
+    text-align: center; /* 내부 텍스트 정렬 설정 */
+    padding-top: 50px; /* 상단 패딩 조정 (선택적) */
+}
+
+.btn {
+    margin-top: 20px; /* 버튼 위 여백 설정 (선택적) */
+}

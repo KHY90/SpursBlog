@@ -21,10 +21,18 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.title {
-    margin-bottom: 20px; /* 제목과 내용 사이 여백 */
+.title-like-container {
+    display: flex; /* Flexbox 사용 */
+    justify-content: space-between; /* 제목과 좋아요 섹션을 간격을 두고 배치 */
+    align-items: center; /* 수직 정렬 */
+    margin-bottom: 20px; /* 제목과 좋아요 섹션 사이 여백 */
     border-bottom: 1px solid #ccc; /* 제목과 내용 구분선 */
     padding-bottom: 10px; /* 구분선 아래 여백 */
+}
+
+.title {
+    flex: 1; /* Flex item 너비 설정 */
+    margin-right: 10px; /* 좋아요 섹션과의 간격 */
 }
 
 .title h2 {
@@ -32,24 +40,19 @@ body {
     margin-bottom: 10px;
 }
 
-.content {
-    margin-top: 20px; /* 내용 위 여백 */
-    line-height: 1.6; /* 줄간격 */
+.like-container {
+    display: flex; /* Flexbox 사용 */
+    align-items: center; /* 수직 정렬 */
 }
 
-.content p {
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-section {
-    padding: 20px;
-    background-color: white;
-    margin: 20px 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.like-button {
+    width: 30px; /* 이미지 너비 설정 */
+    height: 30px; /* 이미지 높이 설정 */
+    margin-right: 10px; /* 이미지와 숫자 사이의 간격 설정 */
+    /* 추가적인 스타일링 가능 */
 }
 
-.inner h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    text-align: center;
+.like-count {
+    font-size: 14px; /* 숫자의 크기 설정 */
+    /* 추가적인 스타일링 가능 */
 }
