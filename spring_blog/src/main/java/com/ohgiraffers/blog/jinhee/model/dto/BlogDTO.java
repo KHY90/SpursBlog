@@ -3,27 +3,17 @@ package com.ohgiraffers.blog.jinhee.model.dto;
 import java.util.Date;
 
 public class BlogDTO {
-
-    private long id;
+    private Long id;
     private String blogTitle;
     private String blogContent;
-    private Date createDate;
+    private Date createDate; // Change from RegistrationDate to CreateDate
 
-    public BlogDTO() {
-    }
-
-    public BlogDTO(long id, String blogTitle, String blogContent, Date createDate) {
-        this.id = id;
-        this.blogTitle = blogTitle;
-        this.blogContent = blogContent;
-        this.createDate = createDate;
-    }
-
-    public long getId() {
+    // Getters and setters
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -49,15 +39,5 @@ public class BlogDTO {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
-    }
-
-    @Override
-    public String toString() {
-        return "BlogDTO{" +
-                "id=" + id +
-                ", blogTitle='" + blogTitle + '\'' +
-                ", blogContent='" + blogContent + '\'' +
-                ", createDate=" + createDate +
-                '}';
     }
 }
