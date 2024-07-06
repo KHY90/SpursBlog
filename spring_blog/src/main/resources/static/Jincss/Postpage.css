@@ -1,3 +1,5 @@
+/* postpage.css */
+
 /* 기본 스타일 초기화 */
 body, h1, h2, h3, p, div, header, section {
     margin: 0;
@@ -21,11 +23,18 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+
 .title-like-container {
     display: flex; /* Flexbox 사용 */
     justify-content: space-between; /* 제목과 좋아요 섹션을 간격을 두고 배치 */
     align-items: center; /* 수직 정렬 */
     margin-bottom: 20px; /* 제목과 좋아요 섹션 사이 여백 */
+
+.title {
+    display: flex;
+    justify-content: space-between; /* 제목과 좋아요 관련 요소 사이 간격 조정 */
+    align-items: center; /* 세로 정렬 */
+    margin-bottom: 20px; /* 제목과 내용 사이 여백 */
     border-bottom: 1px solid #ccc; /* 제목과 내용 구분선 */
     padding-bottom: 10px; /* 구분선 아래 여백 */
 }
@@ -55,4 +64,28 @@ body {
 .like-count {
     font-size: 14px; /* 숫자의 크기 설정 */
     /* 추가적인 스타일링 가능 */
+=======
+    display: flex;
+    align-items: center;
+}
+
+.like-button {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px; /* 좋아요 버튼과 숫자 사이의 간격을 조정 */
+}
+
+.like-count {
+    font-size: 18px;
+    margin-right: 10px; /* 숫자와 다른 요소 사이의 간격을 조정 */
+}
+
+.content {
+    margin-top: 20px; /* 내용 위 여백 */
+    line-height: 1.6; /* 줄간격 */
+}
+
+.content p {
+    font-size: 16px;
+    margin-bottom: 10px;
 }

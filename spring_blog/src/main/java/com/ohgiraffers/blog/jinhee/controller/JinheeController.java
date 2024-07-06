@@ -6,7 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
+
 
 import java.util.List;
 
@@ -26,16 +31,34 @@ public class JinheeController {
     public void indexJinhee() {
     }
 
-    @GetMapping("/post")
-    public void post() {
-    }
-
     @GetMapping("/journey")
     public String share(Model model) {
         List<BlogDTO> blogs = jinheeService.getAllBlogs();
         model.addAttribute("blogs", blogs);
         return "jinhee/journey";
+
+    @GetMapping("/post")
+    public String post(Model model) {
+        return "jinhee/post";
     }
+
+    @PostMapping("/post")
+    public RedirectView postBlog(BlogDTO blogDTO, RedirectAttributes redirectAttributes) {
+        if (blogDTO.getBlogTitle() == null || blogDTO.getBlogTitle().isEmpty() ||
+                blogDTO.getBlogContent() == null || blogDTO.getBlogContent().isEmpty()) {
+            return new RedirectView("/jinhee/post");
+        }
+
+        int result = jinheeService.post(blogDTO);
+
+        if (result <= 0) {
+            return new RedirectView("/jinhee/error/page");
+        } else {
+            redirectAttributes.addFlashAttribute("confirm", true);
+            return new RedirectView("/jinhee/post");
+        }
+    }
+
 
     @GetMapping("/postpage")
     public String postPage(Model model) {
@@ -54,6 +77,12 @@ public class JinheeController {
             model.addAttribute("blogDTO", blogDTO);
             int likeCount = jinheeService.getLikes(id);
             model.addAttribute("likeCount", likeCount);
+
+            model.addAttribute("blogTitle", blogDTO.getBlogTitle());
+            model.addAttribute("blogContent", blogDTO.getBlogContent());
+            model.addAttribute("blogDTO", blogDTO); // 이 부분은 선택적으로 필요할 수 있습니다.
+            // 좋아요 수를 가져오는 로직을 여기에 추가해야 합니다.
+            model.addAttribute("likeCount", jinheeService.getLikes(id));
         }
         return "jinhee/postpage";
     }
@@ -111,4 +140,12 @@ public class JinheeController {
             return "redirect:/jinhee/journey";
         }
     }
+
+    @GetMapping("/journey")
+    public String share(Model model) {
+        List<BlogDTO> blogs = jinheeService.getAllBlogs();
+        model.addAttribute("blogs", blogs);
+        return "jinhee/journey";
+    }
+
 }

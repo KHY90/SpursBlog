@@ -2,7 +2,7 @@ package com.ohgiraffers.blog.hwayeon.controller;
 
 import com.ohgiraffers.blog.hwayeon.model.entity.HwayeonBlog;
 import com.ohgiraffers.blog.hwayeon.service.HwayeonService;
-import com.ohgiraffers.blog.hwayeon.model.dto.hwayeonBlogDTO;
+import com.ohgiraffers.blog.hwayeon.model.dto.HwayeonBlogDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,9 +20,9 @@ import java.util.Optional;
 public class HwayeonController {
 
     private final HwayeonService hwayeonService; // HwayeonService 의존성 주입을 위한 필드
-    private hwayeonBlogDTO currentBlog; // 현재 블로그 DTO 필드
+    private HwayeonBlogDTO currentBlog; // 현재 블로그 DTO 필드
 
-    @Autowired
+        @Autowired
     public HwayeonController(HwayeonService hwayeonService) {
         this.hwayeonService = hwayeonService; // 생성자를 통한 의존성 주입
     }
@@ -70,7 +69,7 @@ public class HwayeonController {
 
     // 포스트 요청 처리
     @PostMapping
-    public ModelAndView postBlog(hwayeonBlogDTO hyblogDTO, ModelAndView mv) {
+    public ModelAndView postBlog(HwayeonBlogDTO hyblogDTO, ModelAndView mv) {
         // 제목이나 내용이 비어있을 경우 에러 처리를 위한 리다이렉트
         if (hyblogDTO.getBlogTitle() == null || hyblogDTO.getBlogTitle().equals("")) {
             mv.setViewName("redirect:/hwayeon/editpage");

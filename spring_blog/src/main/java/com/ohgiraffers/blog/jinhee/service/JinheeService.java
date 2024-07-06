@@ -86,7 +86,16 @@ public class JinheeService {
         }
     }
 
-    public int getLikes(Long id) {
+    @Transactional
+    public void likePost(Long id) {
+        JinheeBlog blog = jinheeRepository.findById(id).orElse(null);
+        if (blog != null) {
+            blog.setLikes(blog.getLikes() + 1); // 좋아요 수 증가
+            jinheeRepository.save(blog);
+        }
+    }
+
+  public int getLikes(Long id) {
         JinheeBlog blog = jinheeRepository.findById(id).orElse(null);
         return blog != null ? blog.getLikes() : 0;
     }

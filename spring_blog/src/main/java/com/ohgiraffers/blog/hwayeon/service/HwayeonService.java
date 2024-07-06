@@ -1,6 +1,6 @@
 package com.ohgiraffers.blog.hwayeon.service;
 
-import com.ohgiraffers.blog.hwayeon.model.dto.hwayeonBlogDTO;
+import com.ohgiraffers.blog.hwayeon.model.dto.HwayeonBlogDTO;
 import com.ohgiraffers.blog.hwayeon.model.entity.HwayeonBlog;
 import com.ohgiraffers.blog.hwayeon.repository.HwayeonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class HwayeonService {
 
     // 블로그 글 등록 서비스 메서드
     @Transactional
-    public int post(hwayeonBlogDTO hyblogDTO) {
+    public int post(HwayeonBlogDTO hyblogDTO) {
         List<HwayeonBlog> hwayeonBlogs = hwayeonRepository.findAll(); // 모든 블로그 가져오기
 
         // 중복 체크 로직

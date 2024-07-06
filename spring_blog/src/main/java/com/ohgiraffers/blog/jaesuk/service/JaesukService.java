@@ -2,7 +2,7 @@ package com.ohgiraffers.blog.jaesuk.service;
 
 import com.ohgiraffers.blog.jaesuk.model.dto.BlogDTO;
 import com.ohgiraffers.blog.jaesuk.model.entity.JaesukBlog;
-import com.ohgiraffers.blog.jaesuk.repository.JeasuckRepository;
+import com.ohgiraffers.blog.jaesuk.repository.JaesukRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,18 +11,18 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class JeasukService {
+public class JaesukService {
 
-    private final JeasuckRepository jeasuckRepository;
+    private final JaesukRepository jaesukRepository;
 
     @Autowired
-    public JeasukService(JeasuckRepository jeasuckRepository) {
-        this.jeasuckRepository = jeasuckRepository;
+    public JaesukService(JaesukRepository jaesukRepository) {
+        this.jaesukRepository = jaesukRepository;
     }
 
     @Transactional
     public int post(BlogDTO blogDTO) {
-        List<JaesukBlog> jaesukBlogs = jeasuckRepository.findAll();
+        List<JaesukBlog> jaesukBlogs = jaesukRepository.findAll();
         // 도메인 로직
         for (JaesukBlog blog: jaesukBlogs) {
             if(blog.getBlogTitle().equals(blogDTO.getBlogTitle())){
@@ -34,7 +34,7 @@ public class JeasukService {
         saveBlog.setBlogContent(blogDTO.getBlogContent());
         saveBlog.setBlogTitle(blogDTO.getBlogTitle());
         saveBlog.setCreateDate(new Date());
-        JaesukBlog result  = jeasuckRepository.save(saveBlog);
+        JaesukBlog result  = jaesukRepository.save(saveBlog);
 
         int resultValue = 0;
 

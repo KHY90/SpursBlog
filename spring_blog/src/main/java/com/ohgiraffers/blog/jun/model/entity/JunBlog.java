@@ -12,9 +12,9 @@ public class JunBlog {
 
     //기본 키로 사용될 필드
     @Id
-    @Column(name = "blog_no") // 컬럼 이름 매핑
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본 키 생성을 데이터베이스에 위임 (AUTO_INCREMENT)
-    private int blogNo;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "blog_id")
+    private Long id;
 
     @Column(name = "blog_title", unique = true, nullable = false) // 블로그 제목 컬럼, 유니크 제약 조건 및 널 허용 안 함
     private String blogTitle;
@@ -33,49 +33,41 @@ public class JunBlog {
 
     // 매개변수가 있는 생성자
 
-    public JunBlog(int blogNo, String blogTitle, String blogContent, Date createDate) {
-        this.blogNo = blogNo;
+    public JunBlog(String blogTitle, String blogContent, Date createDate) {
+
         this.blogTitle = blogTitle;
         this.blogContent = blogContent;
         this.createDate = createDate;
     }
 
-    // blogNo의 getter 메서드
-    public int getBlogNo() {
-        return blogNo;
+    public Long getId() {
+        return id;
     }
 
-    // blogNo의 setter 메서드
-    public void setBlogNo(int blogNo) {
-        this.blogNo = blogNo;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    // blogTitle의 getter 메서드
     public String getBlogTitle() {
         return blogTitle;
     }
 
-    // blogTitle의 setter 메서드
     public void setBlogTitle(String blogTitle) {
         this.blogTitle = blogTitle;
     }
 
-    // blogContent의 getter 메서드
     public String getBlogContent() {
         return blogContent;
     }
 
-    // blogContent의 setter 메서드
     public void setBlogContent(String blogContent) {
         this.blogContent = blogContent;
     }
 
-    // createDate의 getter 메서드
     public Date getCreateDate() {
         return createDate;
     }
 
-    // createDate의 setter 메서드
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
@@ -85,7 +77,7 @@ public class JunBlog {
     @Override
     public String toString() {
         return "JunBlog{" +
-                "blogNo=" + blogNo +
+                "id=" + id +
                 ", blogTitle='" + blogTitle + '\'' +
                 ", blogContent='" + blogContent + '\'' +
                 ", createDate=" + createDate +
