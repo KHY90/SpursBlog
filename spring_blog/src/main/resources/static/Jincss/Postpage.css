@@ -23,13 +23,6 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-
-.title-like-container {
-    display: flex; /* Flexbox 사용 */
-    justify-content: space-between; /* 제목과 좋아요 섹션을 간격을 두고 배치 */
-    align-items: center; /* 수직 정렬 */
-    margin-bottom: 20px; /* 제목과 좋아요 섹션 사이 여백 */
-
 .title {
     display: flex;
     justify-content: space-between; /* 제목과 좋아요 관련 요소 사이 간격 조정 */
@@ -39,32 +32,12 @@ body {
     padding-bottom: 10px; /* 구분선 아래 여백 */
 }
 
-.title {
-    flex: 1; /* Flex item 너비 설정 */
-    margin-right: 10px; /* 좋아요 섹션과의 간격 */
-}
-
 .title h2 {
     font-size: 24px;
     margin-bottom: 10px;
 }
 
 .like-container {
-    display: flex; /* Flexbox 사용 */
-    align-items: center; /* 수직 정렬 */
-}
-
-.like-button {
-    width: 30px; /* 이미지 너비 설정 */
-    height: 30px; /* 이미지 높이 설정 */
-    margin-right: 10px; /* 이미지와 숫자 사이의 간격 설정 */
-    /* 추가적인 스타일링 가능 */
-}
-
-.like-count {
-    font-size: 14px; /* 숫자의 크기 설정 */
-    /* 추가적인 스타일링 가능 */
-=======
     display: flex;
     align-items: center;
 }

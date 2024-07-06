@@ -11,18 +11,17 @@
 <div th:replace="Jinfragments/header :: headerFragment"></div>
 
 <div class="container">
-    <h2>수정</h2>
+    <h2>Edit Blog</h2>
     <form th:action="@{/jinhee/edit/{id}(id=${blogDTO.id})}" th:object="${blogDTO}" method="post">
         <div class="form-group">
-            <label for="blogTitle">제목:</label>
+            <label for="blogTitle">Title:</label>
             <input type="text" class="form-control" id="blogTitle" th:field="*{blogTitle}" required>
         </div>
         <div class="form-group">
-            <label for="blogContent">내용:</label>
+            <label for="blogContent">Content:</label>
             <textarea class="form-control" id="blogContent" th:field="*{blogContent}" rows="5" required></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">확인</button>
-        <a th:href="@{/jinhee/journey}" class="btn btn-secondary">취소</a>
+        <button type="submit" class="btn btn-primary">Update</button>
     </form>
 </div>
 

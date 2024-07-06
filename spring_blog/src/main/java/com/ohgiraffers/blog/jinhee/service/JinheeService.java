@@ -68,6 +68,16 @@ public class JinheeService {
     }
 
     @Transactional
+    public void saveBlog(BlogDTO blogDTO) {
+        JinheeBlog blog = jinheeRepository.findById(blogDTO.getId()).orElse(null);
+        if (blog != null) {
+            blog.setBlogTitle(blogDTO.getBlogTitle());
+            blog.setBlogContent(blogDTO.getBlogContent());
+            jinheeRepository.save(blog);
+        }
+    }
+
+    @Transactional
     public void updateBlog(BlogDTO blogDTO) {
         JinheeBlog blog = jinheeRepository.findById(blogDTO.getId()).orElse(null);
         if (blog != null) {
@@ -86,16 +96,7 @@ public class JinheeService {
         }
     }
 
-    @Transactional
-    public void likePost(Long id) {
-        JinheeBlog blog = jinheeRepository.findById(id).orElse(null);
-        if (blog != null) {
-            blog.setLikes(blog.getLikes() + 1); // 좋아요 수 증가
-            jinheeRepository.save(blog);
-        }
-    }
-
-  public int getLikes(Long id) {
+    public int getLikes(Long id) {
         JinheeBlog blog = jinheeRepository.findById(id).orElse(null);
         return blog != null ? blog.getLikes() : 0;
     }
