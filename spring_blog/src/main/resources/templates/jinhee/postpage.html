@@ -11,6 +11,15 @@
 <div th:replace="Jinfragments/header :: headerFragment"></div>
 
 <div class="container">
+    <div class="title-like-container">
+        <div class="title">
+            <h2>블로그 제목: <span th:text="${blogTitle}">블로그 제목</span></h2>
+        </div>
+        <div class="like-container">
+            <form th:action="@{/jinhee/postpage/{id}/like(id=${blogDTO.id})}" method="post">
+                <input type="image" src="/img/like.png"  class="like-button">
+            </form>
+            <span class="like-count" th:text="${likeCount}"></span> <!-- 좋아요 수를 표시할 변수를 넣으세요 -->
     <div class="title">
         <h2>블로그 제목: <span th:text="${blogTitle}">블로그 제목</span></h2>
         <div class="like-container">

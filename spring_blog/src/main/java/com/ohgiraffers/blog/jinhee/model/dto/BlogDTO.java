@@ -42,6 +42,10 @@ public class BlogDTO {
         this.createDate = createDate;
     }
 
+    private int likes; // 좋아요 수
+
+    // Getter와 Setter 추가
+
     public int getLikes() {
         return likes;
     }
@@ -49,4 +53,5 @@ public class BlogDTO {
     public void setLikes(int likes) {
         this.likes = likes;
     }
+
 }

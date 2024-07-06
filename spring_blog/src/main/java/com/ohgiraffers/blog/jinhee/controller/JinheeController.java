@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+
 
 import java.util.List;
 
@@ -25,9 +28,15 @@ public class JinheeController {
     }
 
     @GetMapping("/main")
-    public String indexJinhee(){
-        return "jinhee/main";
+    public void indexJinhee() {
     }
+
+    @GetMapping("/journey")
+    public String share(Model model) {
+        List<BlogDTO> blogs = jinheeService.getAllBlogs();
+        model.addAttribute("blogs", blogs);
+        return "jinhee/journey";
+
     @GetMapping("/post")
     public String post(Model model) {
         return "jinhee/post";
@@ -54,8 +63,9 @@ public class JinheeController {
     @GetMapping("/postpage")
     public String postPage(Model model) {
         if (currentBlog != null) {
-            model.addAttribute("blogTitle", currentBlog.getBlogTitle());
-            model.addAttribute("blogContent", currentBlog.getBlogContent());
+            model.addAttribute("blogDTO", currentBlog);
+            int likeCount = jinheeService.getLikes(currentBlog.getId());
+            model.addAttribute("likeCount", likeCount);
         }
         return "jinhee/postpage";
     }
@@ -64,6 +74,10 @@ public class JinheeController {
     public String postPage(@PathVariable Long id, Model model) {
         BlogDTO blogDTO = jinheeService.getBlogById(id);
         if (blogDTO != null) {
+            model.addAttribute("blogDTO", blogDTO);
+            int likeCount = jinheeService.getLikes(id);
+            model.addAttribute("likeCount", likeCount);
+
             model.addAttribute("blogTitle", blogDTO.getBlogTitle());
             model.addAttribute("blogContent", blogDTO.getBlogContent());
             model.addAttribute("blogDTO", blogDTO); // 이 부분은 선택적으로 필요할 수 있습니다.
@@ -80,18 +94,34 @@ public class JinheeController {
         return "redirect:/jinhee/postpage/{id}";
     }
 
+    @PostMapping
+    public String postBlog(BlogDTO blogDTO) {
+        if (blogDTO.getBlogTitle() == null || blogDTO.getBlogTitle().isEmpty() ||
+                blogDTO.getBlogContent() == null || blogDTO.getBlogContent().isEmpty()) {
+            return "redirect:/jinhee/post";
+        }
+
+        int result = jinheeService.post(blogDTO);
+        if (result <= 0) {
+            return "error/page";
+        } else {
+            currentBlog = blogDTO;
+            return "redirect:/jinhee/postpage";
+        }
+    }
+
     @GetMapping("/edit/{id}")
-    public String editBlog(@PathVariable Long id, Model model) {
-        BlogDTO blogDTO = jinheeService.getBlogById(id);
-        if (blogDTO == null) {
+    public String showEditForm(@PathVariable Long id, Model model) {
+        BlogDTO existingBlogDTO = jinheeService.getBlogById(id);
+        if (existingBlogDTO == null) {
             return "redirect:/jinhee/journey";
         }
-        model.addAttribute("blogDTO", blogDTO);
+        model.addAttribute("blogDTO", existingBlogDTO);
         return "jinhee/edit";
     }
 
     @PostMapping("/edit/{id}")
-    public String editSubmit(@ModelAttribute BlogDTO blogDTO) {
+    public String editBlog(@PathVariable Long id, @ModelAttribute("blogDTO") BlogDTO blogDTO) {
         jinheeService.updateBlog(blogDTO);
         return "redirect:/jinhee/journey";
     }
@@ -117,4 +147,5 @@ public class JinheeController {
         model.addAttribute("blogs", blogs);
         return "jinhee/journey";
     }
+
 }
