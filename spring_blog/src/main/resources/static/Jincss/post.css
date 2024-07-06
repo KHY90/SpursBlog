@@ -63,3 +63,12 @@ section {
     font-size: 24px;
     text-align: center;
 }
+
+.container p {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.container a.btn {
+    margin-top: 10px;
+}

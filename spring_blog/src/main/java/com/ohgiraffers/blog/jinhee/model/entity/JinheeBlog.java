@@ -23,6 +23,9 @@ public class JinheeBlog {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
+    @Column(name = "likes", nullable = false)
+    private int likes;
+
     public JinheeBlog() {
     }
 
@@ -64,6 +67,14 @@ public class JinheeBlog {
         this.createDate = createDate;
     }
 
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
     @Override
     public String toString() {
         return "JinheeBlog{" +
@@ -71,6 +82,7 @@ public class JinheeBlog {
                 ", blogTitle='" + blogTitle + '\'' +
                 ", blogContent='" + blogContent + '\'' +
                 ", createDate=" + createDate +
+                ", likes=" + likes +
                 '}';
     }
 }

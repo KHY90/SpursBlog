@@ -6,7 +6,8 @@ public class BlogDTO {
     private Long id;
     private String blogTitle;
     private String blogContent;
-    private Date createDate; // Change from RegistrationDate to CreateDate
+    private Date createDate;
+    private int likes;
 
     // Getters and setters
     public Long getId() {
@@ -39,5 +40,13 @@ public class BlogDTO {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
 }

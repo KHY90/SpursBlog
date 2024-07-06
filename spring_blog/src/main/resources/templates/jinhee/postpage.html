@@ -13,6 +13,12 @@
 <div class="container">
     <div class="title">
         <h2>블로그 제목: <span th:text="${blogTitle}">블로그 제목</span></h2>
+        <div class="like-container">
+            <form th:action="@{/jinhee/postpage/{id}/like(id=${blogDTO.id})}" method="post">
+                <input type="image" src="/img/like.png" alt="Like Button" class="like-button">
+            </form>
+            <span class="like-count" th:text="${likeCount}">0</span>
+        </div>
     </div>
     <div class="content">
         <p>블로그 내용: <span th:text="${blogContent}">블로그 내용</span></p>
