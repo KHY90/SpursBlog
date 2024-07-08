@@ -1,8 +1,8 @@
 package com.ohgiraffers.blog.jaesuk.model.dto;
 
-import com.ohgiraffers.blog.hwayeon.model.dto.hwayeonBlogDTO;
+import com.ohgiraffers.blog.hwayeon.model.dto.HwayeonBlogDTO;
 
-public class BlogDTO extends hwayeonBlogDTO {
+public class BlogDTO extends HwayeonBlogDTO {
 
     private String blogTitle;
     private String blogContent;

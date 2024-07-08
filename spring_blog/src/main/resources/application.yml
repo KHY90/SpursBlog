@@ -14,3 +14,4 @@ spring:
     username: gangnam
     password: gangnam
     driver-class-name: com.mysql.cj.jdbc.Driver
+

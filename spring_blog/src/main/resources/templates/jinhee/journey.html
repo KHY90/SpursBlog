@@ -17,6 +17,7 @@
             <li th:each="blogDTO, stat : ${blogs}" class="list-group-item">
                 <span th:text="${stat.count}"></span>. <!-- 번호 -->
                 <a th:href="@{'/jinhee/postpage/' + ${blogDTO.id}}" th:text="${blogDTO.blogTitle}"></a>
+                <span class="create-date" th:text="${#dates.format(blogDTO.createDate, 'yyyy-MM-dd HH:mm:ss')}"></span> <!-- 생성 날짜 -->
                 <div class="btn-group" role="group" aria-label="Post actions">
                     <a th:href="@{'/jinhee/edit/' + ${blogDTO.id}}" class="btn btn-sm btn-primary">수정</a>
                     <a th:href="@{'/jinhee/delete/' + ${blogDTO.id}}" class="btn btn-sm btn-danger">삭제</a>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Blog</title>
+    <!-- 필요한 CSS 파일들 추가 -->
+</head>
+<body>
+
+
+
+<div class="container">
+    <h2>Delete Blog</h2>
+    <p>Are you sure you want to delete this blog?</p>
+    <form th:action="@{/jun/delete/confirm/{id}(id=${blogDTO.id})}" method="get">
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+</div>
+
+
+
+</body>
+</html>

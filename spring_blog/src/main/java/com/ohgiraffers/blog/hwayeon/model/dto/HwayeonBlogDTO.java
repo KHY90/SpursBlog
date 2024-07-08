@@ -1,20 +1,22 @@
 package com.ohgiraffers.blog.hwayeon.model.dto;
 
-import javax.xml.crypto.Data;
+import java.util.Date;
 
-public class hwayeonBlogDTO {
+public class HwayeonBlogDTO {
 
-    private Integer blogNo;
+    private Integer blogNo; // 수정: 게시물 번호 필드 추가
+
     private String blogTitle;
     private String blogContent;
-    private Data createDate;
+    private Date createDate; // 수정: java.util.Date를 사용
+
     private String imgUrl;
     private String category;
 
-    public hwayeonBlogDTO() {
+    public HwayeonBlogDTO() {
     }
 
-    public hwayeonBlogDTO(Integer blogNo, String blogTitle, String blogContent, Data createDate, String imgUrl, String category) {
+    public HwayeonBlogDTO(Integer blogNo, String blogTitle, String blogContent, Date createDate, String imgUrl, String category) {
         this.blogNo = blogNo;
         this.blogTitle = blogTitle;
         this.blogContent = blogContent;
@@ -47,11 +49,11 @@ public class hwayeonBlogDTO {
         this.blogContent = blogContent;
     }
 
-    public Data getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Data createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
@@ -73,7 +75,7 @@ public class hwayeonBlogDTO {
 
     @Override
     public String toString() {
-        return "hwayeonBlogDTO{" +
+        return "HwayeonBlogDTO{" +
                 "blogNo=" + blogNo +
                 ", blogTitle='" + blogTitle + '\'' +
                 ", blogContent='" + blogContent + '\'' +
@@ -81,5 +83,9 @@ public class hwayeonBlogDTO {
                 ", imgUrl='" + imgUrl + '\'' +
                 ", category='" + category + '\'' +
                 '}';
+    }
+
+    public Integer getId() {
+        return blogNo;
     }
 }

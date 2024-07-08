@@ -24,23 +24,19 @@
 0702: css 조정, post 컨트롤러 수정 <br>
 0703: index 수정, 컨트롤러, 서비스 수정 <br>
 0704: 수정페이지 작성, 컨트롤러, 서비스, 엔티티, 디티오 수정 및 추가
+0705: 등록정
   
 <br>
 </div>
 </details>
-<details>
-<summary>홍서우 : </summary>
-<div markdown="1">
 
-</div>
-</details>
 <details>
 <summary>목진희 : </summary>
 <div markdown="1">
 0702: Jin's journey 블로그 메인페이지, 작성페이지, post페이지 완성<br>
-0702: Team file과 merge 및 수정<br>
-0703: Journey 페이지 작성, 수정/삭제 기능 구현.
-
+0703: Team file과 merge 및 수정<br>
+0704: Journey 페이지 작성, 수정/삭제 기능 구현.<br>
+0705: 좋아요 기능 구현
 
 </div>
 </details>
@@ -52,18 +48,15 @@
 
 </div>
 </details>
-<details>
-<summary>김효연 :  </summary>
-<div markdown="1">
-0702: 깃허브 푸쉬 연습
 
-</div>
-</details>
+
 <details>
 <summary>김재석 : </summary>
 <div markdown="1">
-
-
+0708: 재석블로그 수정
+등록,수정,삭제,검색,캘린더
+배경 css
+대댓글달기 
 </div>
 </details>
 <details>
