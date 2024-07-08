@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -32,6 +31,18 @@ public class HwayeonController {
 
         return mv; // ModelAndView 객체 반환
     }
+
+    // 리스트 페이지 불러오기
+    @GetMapping("/list")
+    public ModelAndView listpage() {
+        ModelAndView mv = new ModelAndView("hwayeon/listpage");
+
+        List<HwayeonBlogDTO> latestPosts = hwayeonService.findAllPosts();
+        mv.addObject("latestPosts", latestPosts);
+
+        return mv;
+    }
+
 
     // 등록 페이지 불러오기
     @GetMapping("/newpost")
@@ -86,17 +97,12 @@ public class HwayeonController {
 
     // 삭제 처리하기 (DELETE 메소드)
     @DeleteMapping("/delete/{blogNo}")
-    public ModelAndView deletePost(@PathVariable("blogNo") Integer blogNo) {
-        hwayeonService.deletePost(blogNo); // 게시글 삭제 메소드 호출
-        ModelAndView mv = new ModelAndView("redirect:/hwayeon/main"); // 리다이렉트 View 설정
+    public String deletePost(@PathVariable("blogNo") Integer blogNo) {
 
-        return mv; // ModelAndView 객체 반환
+        hwayeonService.deletePost(blogNo);  // 게시글 삭제 메소드 호출
+
+        return "redirect:/hwayeon/list";  // 리다이렉트 View 설정
     }
 
-    // 리스트 페이지 불러오기
-    @GetMapping("/list")
-    public String listpage() {
-        return "/hwayeon/listpage"; // 리스트 페이지 View 이름 반환
-    }
 
 }
