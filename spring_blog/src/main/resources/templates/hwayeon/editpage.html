@@ -32,7 +32,7 @@
             </form>
 
             <!-- 블로그 등록 폼 -->
-            <form th:action="@{/hwayeon/postpage}" method="post" th:if="${blog.blogNo == null}">
+            <form th:action="@{/hwayeon/postpage}" method="post" th:unless="${blog.blogNo != null}">
                 <div class="mb-3">
                     <input type="hidden" class="form-control" id="newBlogNo" name="blogNo">
                 </div>

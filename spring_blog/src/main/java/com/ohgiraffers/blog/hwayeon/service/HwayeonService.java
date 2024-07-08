@@ -21,6 +21,10 @@ public class HwayeonService {
         this.hwayeonRepository = hwayeonRepository;
     }
 
+//    public List<HwayeonBlogDTO> findAllPosts() {
+//        return hwayeonBlogRepository.findAll();
+//    }
+
     // 모든 게시글 목록 조회
     public List<HwayeonBlogDTO> findAllPosts() {
         // 데이터베이스에서 모든 게시글을 조회하여 HwayeonBlog 객체의 리스트로 받아옴
