@@ -53,8 +53,10 @@
 <details>
 <summary>김재석 : </summary>
 <div markdown="1">
-
-
+0708: 재석블로그 수정
+등록,수정,삭제,검색,캘린더
+배경 css
+대댓글달기 
 </div>
 </details>
 <details>
