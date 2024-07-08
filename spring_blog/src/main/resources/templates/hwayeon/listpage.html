@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>화연 블로그</title>
+    <title>조회 페이지</title>
     <link rel="stylesheet" th:href="@{/css/khymain.css}" />
 </head>
 <body>
@@ -13,9 +13,6 @@
 
 <!--메인 영역-->
 <main>
-    <div class="mainImg" style="display: flex;">
-        <img src="https://media.istockphoto.com/id/1526986072/ko/%EC%82%AC%EC%A7%84/%ED%95%B4%EC%A7%88%EB%85%98-%EC%97%B4%EB%8C%80-%EB%B0%94%EB%8B%A4-%EC%9C%84%EB%A5%BC-%EB%82%A0%EC%95%84%EB%8B%A4%EB%8B%88%EB%8A%94-%EB%B9%84%ED%96%89%EA%B8%B0.jpg?s=612x612&w=0&k=20&c=XDHnz3hezL-twLjxESaJFC3iI97lUdGAq4XgscVBHa0=">
-    </div>
     <section class="hero">
         <div class="hero-content">
             <button type="button" class="btn btn-primary" onclick="location.href='/hwayeon/newpost'">게시글 등록
@@ -36,6 +33,5 @@
 
 <!--풋터영역-->
 <div th:insert="khyfragments/footer :: footerFragment"></div>
-
 </body>
 </html>
