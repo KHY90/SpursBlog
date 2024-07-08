@@ -1,17 +1,14 @@
 package com.ohgiraffers.blog.hwayeon.controller;
 
-import com.ohgiraffers.blog.hwayeon.model.entity.HwayeonBlog;
-import com.ohgiraffers.blog.hwayeon.service.HwayeonService;
 import com.ohgiraffers.blog.hwayeon.model.dto.HwayeonBlogDTO;
+import com.ohgiraffers.blog.hwayeon.service.HwayeonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/hwayeon")
@@ -24,81 +21,82 @@ public class HwayeonController {
         this.hwayeonService = hwayeonService;
     }
 
+    // 메인 페이지 불러오기
     @GetMapping("/main")
-    public ModelAndView mainPage() {
-        ModelAndView mv = new ModelAndView("hwayeon/main");
+    public ModelAndView main() {
+        ModelAndView mv = new ModelAndView("hwayeon/main"); // ModelAndView 객체 생성 및 View 설정
 
-        List<HwayeonBlog> latestPosts = hwayeonService.getLatestPosts(3);
+        List<HwayeonBlogDTO> allPosts = hwayeonService.findAllPosts(); // 모든 게시글 가져오기
 
-        if (!latestPosts.isEmpty()) {
-            mv.addObject("latestPosts", latestPosts);
-        } else {
-            mv.addObject("latestPosts", Collections.emptyList());
-        }
+        mv.addObject("allPosts", allPosts); // 뷰에 allPosts 객체를 allPosts 이름으로 전달
 
-        return mv;
+        return mv; // ModelAndView 객체 반환
     }
 
+    // 등록 페이지 불러오기
+    @GetMapping("/newpost")
+    public ModelAndView showNewPostPage() {
+        ModelAndView mv = new ModelAndView("hwayeon/editpage"); // ModelAndView 객체 생성 및 View 설정
+
+        mv.addObject("blog", new HwayeonBlogDTO()); // 뷰에 빈 HwayeonBlogDTO 객체를 blog 이름으로 전달
+
+        return mv; // ModelAndView 객체 반환
+    }
+
+    // 수정 페이지 불러오기
     @GetMapping("/editpage")
-    public String editpagePage() {
-        return "hwayeon/editpage";
-    }
+    public ModelAndView showEditPage(@RequestParam(name = "blogNo", required = false) Integer blogNo) {
+        ModelAndView mv = new ModelAndView("hwayeon/modifypage"); // ModelAndView 객체 생성 및 View 설정
 
-    @GetMapping("/detailpost")
-    public String detailpost(Model model) {
-        Optional<HwayeonBlog> latestPost = hwayeonService.getLatestPost();
-
-        if (latestPost.isPresent()) {
-
-            HwayeonBlogDTO currentBlog = new HwayeonBlogDTO();
-
-            currentBlog.setBlogTitle(latestPost.get().getBlogTitle());
-            currentBlog.setBlogContent(latestPost.get().getBlogContent());
-
-            model.addAttribute("blogTitle", currentBlog.getBlogTitle());
-            model.addAttribute("blogContent", currentBlog.getBlogContent());
+        if (blogNo != null) {
+            HwayeonBlogDTO blogDTO = hwayeonService.findByBlogNo(blogNo); // blogNo에 해당하는 게시글 조회
+            mv.addObject("blog", blogDTO); // 뷰에 조회된 블로그 객체를 blog 이름으로 전달
         } else {
-            model.addAttribute("blogTitle", "제목을 찾을 수 없습니다.");
-            model.addAttribute("blogContent", "내용을 찾을 수 없습니다.");
+            mv.addObject("blog", new HwayeonBlogDTO()); // blogNo가 없으면 빈 HwayeonBlogDTO 객체를 blog 이름으로 전달
         }
 
-        return "hwayeon/detailpost";
+        return mv; // ModelAndView 객체 반환
     }
 
-    @PostMapping("/detailpost")
-    public ModelAndView postBlog(HwayeonBlogDTO hyblogDTO) {
-        ModelAndView mv = new ModelAndView();
+    // 내용 등록하기
+    @PostMapping("/postpage")
+    public ModelAndView submitPost(HwayeonBlogDTO blogDTO) {
+        hwayeonService.savePost(blogDTO); // 게시글 저장 메소드 호출
+        ModelAndView mv = new ModelAndView("hwayeon/postpage"); // ModelAndView 객체 생성 및 View 설정
 
-        if (hyblogDTO.getBlogTitle() == null || hyblogDTO.getBlogTitle().isEmpty() || hyblogDTO.getBlogContent() == null || hyblogDTO.getBlogContent().isEmpty()) {
-            mv.setViewName("redirect:/hwayeon/editpage");
-            mv.addObject("errorMessage", "제목과 내용을 모두 입력해야 합니다.");
-            return mv;
-        }
+        mv.addObject("blogTitle", blogDTO.getBlogTitle()); // 뷰에 게시글 제목을 blogTitle 이름으로 전달
+        mv.addObject("blogContent", blogDTO.getBlogContent()); // 뷰에 게시글 내용을 blogContent 이름으로 전달
+        mv.addObject("blogNo", blogDTO.getBlogNo()); // 뷰에 게시글 번호를 blogNo 이름으로 전달
 
-        int result = hwayeonService.post(hyblogDTO);
-
-        if (result <= 0) {
-            mv.setViewName("error/page");
-        } else {
-            mv.setViewName("redirect:/hwayeon/detailpost");
-        }
-        return mv;
+        return mv; // ModelAndView 객체 반환
     }
 
-    @GetMapping("/modifypage")
-    public String modifyPage(Model model) {
-        Optional<HwayeonBlog> latestPost = hwayeonService.getLatestPost();
-        if (latestPost.isPresent()) {
-            model.addAttribute("blogPost", latestPost.get());
-        } else {
-            model.addAttribute("errorMessage", "수정할 게시글이 없습니다.");
-        }
-        return "hwayeon/modifypage";
-    }
-
+    // 내용 수정하기
     @PostMapping("/update")
-    public String updatePost(@ModelAttribute("blogPost") HwayeonBlog updatedPost) {
-        hwayeonService.updatePost(updatedPost);
-        return "redirect:/hwayeon/main";
+    public ModelAndView updatePost(HwayeonBlogDTO blogDTO) {
+        hwayeonService.updatePost(blogDTO); // 게시글 수정 메소드 호출
+        ModelAndView mv = new ModelAndView("hwayeon/postpage"); // ModelAndView 객체 생성 및 View 설정
+
+        mv.addObject("blogTitle", blogDTO.getBlogTitle()); // 뷰에 게시글 제목을 blogTitle 이름으로 전달
+        mv.addObject("blogContent", blogDTO.getBlogContent()); // 뷰에 게시글 내용을 blogContent 이름으로 전달
+        mv.addObject("blogNo", blogDTO.getBlogNo()); // 뷰에 게시글 번호를 blogNo 이름으로 전달
+
+        return mv; // ModelAndView 객체 반환
     }
+
+    // 삭제 처리하기 (DELETE 메소드)
+    @DeleteMapping("/delete/{blogNo}")
+    public ModelAndView deletePost(@PathVariable("blogNo") Integer blogNo) {
+        hwayeonService.deletePost(blogNo); // 게시글 삭제 메소드 호출
+        ModelAndView mv = new ModelAndView("redirect:/hwayeon/main"); // 리다이렉트 View 설정
+
+        return mv; // ModelAndView 객체 반환
+    }
+
+    // 리스트 페이지 불러오기
+    @GetMapping("/list")
+    public String listpage() {
+        return "/hwayeon/listpage"; // 리스트 페이지 View 이름 반환
+    }
+
 }

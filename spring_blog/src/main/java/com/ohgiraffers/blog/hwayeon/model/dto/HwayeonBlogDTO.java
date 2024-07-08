@@ -1,24 +1,36 @@
 package com.ohgiraffers.blog.hwayeon.model.dto;
 
-import javax.xml.crypto.Data;
+import java.util.Date;
 
 public class HwayeonBlogDTO {
 
+    private Integer blogNo; // 수정: 게시물 번호 필드 추가
+
     private String blogTitle;
     private String blogContent;
-    private Data createDate;
+    private Date createDate; // 수정: java.util.Date를 사용
+
     private String imgUrl;
     private String category;
 
     public HwayeonBlogDTO() {
     }
 
-    public HwayeonBlogDTO(Integer blogNo, String blogTitle, String blogContent, Data createDate, String imgUrl, String category) {
+    public HwayeonBlogDTO(Integer blogNo, String blogTitle, String blogContent, Date createDate, String imgUrl, String category) {
+        this.blogNo = blogNo;
         this.blogTitle = blogTitle;
         this.blogContent = blogContent;
         this.createDate = createDate;
         this.imgUrl = imgUrl;
         this.category = category;
+    }
+
+    public Integer getBlogNo() {
+        return blogNo;
+    }
+
+    public void setBlogNo(Integer blogNo) {
+        this.blogNo = blogNo;
     }
 
     public String getBlogTitle() {
@@ -37,11 +49,11 @@ public class HwayeonBlogDTO {
         this.blogContent = blogContent;
     }
 
-    public Data getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Data createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
@@ -63,12 +75,17 @@ public class HwayeonBlogDTO {
 
     @Override
     public String toString() {
-        return "hwayeonBlogDTO{" +
+        return "HwayeonBlogDTO{" +
+                "blogNo=" + blogNo +
                 ", blogTitle='" + blogTitle + '\'' +
                 ", blogContent='" + blogContent + '\'' +
                 ", createDate=" + createDate +
                 ", imgUrl='" + imgUrl + '\'' +
                 ", category='" + category + '\'' +
                 '}';
+    }
+
+    public Integer getId() {
+        return blogNo;
     }
 }

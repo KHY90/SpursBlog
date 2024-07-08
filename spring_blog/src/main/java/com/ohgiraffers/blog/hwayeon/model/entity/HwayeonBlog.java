@@ -32,15 +32,6 @@ public class HwayeonBlog {
     public HwayeonBlog() {
     }
 
-    public HwayeonBlog(Integer blogNo, String blogTitle, String blogContent, Date createDate, String imgUrl, String category) {
-        this.blogNo = blogNo;
-        this.blogTitle = blogTitle;
-        this.blogContent = blogContent;
-        this.createDate = createDate;
-        this.imgUrl = imgUrl;
-        this.category = category;
-    }
-
     public Integer getBlogNo() {
         return blogNo;
     }
