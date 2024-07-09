@@ -35,6 +35,7 @@
             <form th:action="@{/hwayeon/postpage}" method="post" th:unless="${blog.blogNo != null}">
                 <div class="mb-3">
                     <input type="hidden" class="form-control" id="newBlogNo" name="blogNo">
+                    <!--<input type="hidden" class="form-control" id="newCreateDate" name="createDate">-->
                 </div>
                 <div class="mb-3">
                     <label for="newBlogTitle" class="form-label">제목 :</label>
@@ -48,6 +49,11 @@
                 </div>
                 <button type="submit" class="btn btn-primary">블로그 등록</button>
             </form>
+            <!-- 등록 성공 메시지 -->
+            <div th:if="${confirm}" class="container">
+                <p>등록되었습니다.</p>
+                <a th:href="@{/hwayeon/PostPage}" class="btn btn-primary">확인</a>
+            </div>
         </div>
     </section>
 </main>

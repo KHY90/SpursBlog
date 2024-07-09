@@ -4,27 +4,28 @@ import java.util.Date;
 
 public class HwayeonBlogDTO {
 
-    private Integer blogNo; // 수정: 게시물 번호 필드 추가
-
+    private Integer blogNo;
     private String blogTitle;
     private String blogContent;
-    private Date createDate; // 수정: java.util.Date를 사용
-
+    private Date createDate;
     private String imgUrl;
     private String category;
+    private Integer  likes;
 
     public HwayeonBlogDTO() {
     }
 
-    public HwayeonBlogDTO(Integer blogNo, String blogTitle, String blogContent, Date createDate, String imgUrl, String category) {
+    public HwayeonBlogDTO(Integer blogNo, String blogTitle, String blogContent, Date createDate, String imgUrl, String category, Integer likes) {
         this.blogNo = blogNo;
         this.blogTitle = blogTitle;
         this.blogContent = blogContent;
         this.createDate = createDate;
         this.imgUrl = imgUrl;
         this.category = category;
+        this.likes = likes;
     }
 
+    // Getters and setters
     public Integer getBlogNo() {
         return blogNo;
     }
@@ -73,6 +74,14 @@ public class HwayeonBlogDTO {
         this.category = category;
     }
 
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
+    }
+
     @Override
     public String toString() {
         return "HwayeonBlogDTO{" +
@@ -82,10 +91,7 @@ public class HwayeonBlogDTO {
                 ", createDate=" + createDate +
                 ", imgUrl='" + imgUrl + '\'' +
                 ", category='" + category + '\'' +
+                ", likes=" + likes +
                 '}';
-    }
-
-    public Integer getId() {
-        return blogNo;
     }
 }

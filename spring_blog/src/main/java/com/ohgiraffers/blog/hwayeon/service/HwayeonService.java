@@ -3,10 +3,9 @@ package com.ohgiraffers.blog.hwayeon.service;
 import com.ohgiraffers.blog.hwayeon.model.dto.HwayeonBlogDTO;
 import com.ohgiraffers.blog.hwayeon.model.entity.HwayeonBlog;
 import com.ohgiraffers.blog.hwayeon.repository.HwayeonRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,10 +19,6 @@ public class HwayeonService {
     public HwayeonService(HwayeonRepository hwayeonRepository) {
         this.hwayeonRepository = hwayeonRepository;
     }
-
-//    public List<HwayeonBlogDTO> findAllPosts() {
-//        return hwayeonBlogRepository.findAll();
-//    }
 
     // 모든 게시글 목록 조회
     public List<HwayeonBlogDTO> findAllPosts() {
@@ -40,6 +35,8 @@ public class HwayeonService {
     public void savePost(HwayeonBlogDTO blogDTO) {
         // HwayeonBlogDTO 객체에서 데이터를 추출하여 HwayeonBlog 객체에 설정
         HwayeonBlog blog = new HwayeonBlog();
+
+//        blog.setCreateDate(blogDTO.getCreateDate());
         blog.setBlogTitle(blogDTO.getBlogTitle());
         blog.setBlogContent(blogDTO.getBlogContent());
 
@@ -58,8 +55,8 @@ public class HwayeonService {
     }
 
     // 게시글 수정
-    public void updatePost(HwayeonBlogDTO blogDTO) {
-        Integer blogNo = blogDTO.getId(); // postDto에서 ID 추출
+    public boolean updatePost(HwayeonBlogDTO blogDTO) {
+        Integer blogNo = blogDTO.getBlogNo(); // postDto에서 ID 추출
         if (blogNo == null) {
             throw new IllegalArgumentException("Post ID must not be null");
         }
@@ -73,7 +70,10 @@ public class HwayeonService {
         blog.setBlogContent(blogDTO.getBlogContent());
 
         // 수정된 HwayeonBlog 객체를 저장
-        hwayeonRepository.save(blog);
+        HwayeonBlog updatedBlog = hwayeonRepository.save(blog);
+
+        // 저장된 블로그 객체가 null이 아니면 수정이 성공적으로 이루어진 것으로 판단
+        return updatedBlog != null;
     }
 
     // HwayeonBlog 객체를 HwayeonBlogDTO 객체로 변환
@@ -84,9 +84,9 @@ public class HwayeonService {
                 blog.getBlogContent(),
                 blog.getCreateDate(),
                 blog.getImgUrl(),
-                blog.getCategory()
+                blog.getCategory(),
+                blog.getLikes()
         );
-
     }
 
     // 게시글 삭제
@@ -95,4 +95,16 @@ public class HwayeonService {
         hwayeonRepository.deleteById(blogNo);
     }
 
+    @Transactional
+    public void likePost(Integer blogNo) {
+        HwayeonBlog blog = hwayeonRepository.findById(blogNo)
+                .orElseThrow(() -> new RuntimeException("Blog를 찾을 수 없습니다."));
+        blog.setLikes(blog.getLikes() + 1);
+        hwayeonRepository.save(blog);
+    }
+
+    public HwayeonBlogDTO findBlogByNo(Integer blogNo) {
+        // 레포지토리에서 번호에 해당하는 블로그 가져오는 구현
+        return hwayeonRepository.findByBlogNo(blogNo);
+    }
 }
