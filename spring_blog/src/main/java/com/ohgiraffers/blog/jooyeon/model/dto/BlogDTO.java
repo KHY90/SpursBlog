@@ -9,8 +9,6 @@ import java.util.Date;
 
 public class BlogDTO {
 
-
-
     private String blogTitle;
     private String blogContent;
 

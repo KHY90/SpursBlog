@@ -43,21 +43,24 @@ public class JooyeonService {
         return result != null ? 1 : 0; // 저장 성공 시 1, 실패 시 0 반환
     }
 
+    // registList 페이지에 보여주기 위한 메서드
     public List<BlogDTO> listBlogs() {
         List<JooyeonBlog> jooyeonBlogs = jooyeonRepository.findAll();
         List<BlogDTO> blogDTOs = new ArrayList<>();
 
         for (JooyeonBlog blog : jooyeonBlogs) {
             BlogDTO blogDTO = new BlogDTO();
-            blogDTO.setId(String.valueOf(blog.getBlogNo()));
+            blogDTO.setId(String.valueOf(blog.getBlogNo())); // int 값을 String으로 변환
             blogDTO.setBlogTitle(blog.getBlogTitle());
             blogDTO.setBlogContent(blog.getBlogContent());
-            blogDTO.setCreateDate(blog.getCreateDate());
+            blogDTO.setRegisterDate(blog.getCreateDate().toString()); // 필요에 따라 날짜 포맷 조정
             blogDTOs.add(blogDTO); // 조회된 블로그 포스트를 DTO 리스트에 추가
         }
 
         return blogDTOs;
     }
+
+
     // 추가된 블로그 포스트 ID로 조회 메서드
     public BlogDTO getBlogById(Integer id) {
         JooyeonBlog blog = jooyeonRepository.findById(id).orElse(null); // ID로 블로그 포스트 조회
