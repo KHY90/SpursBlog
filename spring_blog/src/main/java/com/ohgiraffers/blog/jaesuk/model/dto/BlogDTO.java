@@ -8,6 +8,7 @@ public class BlogDTO extends HwayeonBlogDTO {
     private String blogContent;
 
     public BlogDTO() {
+
     }
 
     public BlogDTO(String blogTitle, String blogContent) {

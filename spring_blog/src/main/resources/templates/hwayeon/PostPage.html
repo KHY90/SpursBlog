@@ -18,22 +18,24 @@
         <div class="container">
             <div class="blogtitle">
                 <p><span th:text="${blogTitle}">블로그 제목</span></p>
+<!--                <p><span th:text="${createDate}">작성시간</span></p>-->
             </div>
             <div class="blogcontents">
                 <p><span th:text="${blogContent}">블로그 내용</span></p>
             </div>
+
+
             <!-- 수정 폼 -->
             <form th:action="@{/hwayeon/editpage}" method="get">
-                <input type="hidden" th:value="${blog?.blogNo}" name="blogNo"/>
+                <input type="hidden" th:value="${blogNo}" name="blogNo"/>
                 <div class="modifybutton">
                     <button type="submit">수정</button>
                 </div>
             </form>
             <!-- 삭제 폼 -->
-            <form th:action="@{/hwayeon/postpage/{blogNo}(blogNo=${blog?.blogNo})}" method="post">
-                <div class="deletebutton">
-                    <button type="submit">삭제</button>
-                </div>
+            <form th:action="@{'/hwayeon/delete/' + ${blogNo}}" method="post">
+                <input type="hidden" name="_method" value="delete" />
+                <button type="submit" class="btn btn-danger">삭제</button>
             </form>
         </div>
     </section>
