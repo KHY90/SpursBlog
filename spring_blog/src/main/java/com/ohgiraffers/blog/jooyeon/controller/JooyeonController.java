@@ -1,6 +1,7 @@
 package com.ohgiraffers.blog.jooyeon.controller;
 
-import com.ohgiraffers.blog.jooyeon.dto.BlogDTO;
+
+import com.ohgiraffers.blog.jooyeon.model.dto.BlogDTO;
 import com.ohgiraffers.blog.jooyeon.service.JooyeonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,11 +24,28 @@ public class JooyeonController {
         this.jooyeonService = jooyeonService;
     }
 
+
+
+
+    @GetMapping("/blogFirst")
+    public String blogfirst() {
+        return "/jooyeon/blogFirst";
+
+    }
+
     @GetMapping("/regist")
-    public String jyregist() {
+    public String regist() {
         return "/jooyeon/regist";
 
     }
+
+    @GetMapping("/registList")
+    public String registList() {
+        return "/jooyeon/registList";
+
+    }
+
+
 
     @GetMapping("jypage")
     public String jypage(Model model) {
@@ -49,18 +67,21 @@ public class JooyeonController {
             mv.setViewName("redirect:/jooyeon/regist");
             return mv;
         }
-
         int result = jooyeonService.post(blogDTO);
+
 
         if (result <= 0) {
             mv.setViewName("error/page");
         } else {
             currentBlog = blogDTO;
-            mv.setViewName("redirect:/jooyeon/jypage");
+            mv.setViewName("redirect:/jooyeon/registList");
         }
 
         return mv;
     }
+
+
 }
+
 
 

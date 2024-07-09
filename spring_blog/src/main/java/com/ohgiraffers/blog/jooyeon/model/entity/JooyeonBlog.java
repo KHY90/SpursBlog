@@ -1,4 +1,4 @@
-package com.ohgiraffers.blog.jooyeon.entity;
+package com.ohgiraffers.blog.jooyeon.model.entity;
 
 import jakarta.persistence.*;
 
@@ -64,5 +64,16 @@ public class JooyeonBlog {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+
+
+    // 추가된 setId 메서드
+    public void setId(int blogNo) {
+        this.blogNo = blogNo;
+    }
+
+    public String getId() {
+        return getId();
     }
 }
