@@ -11,17 +11,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Service
+@Service // Spring의 서비스 컴포넌트임을 나타내는 애노테이션
 public class JinheeService {
 
     private final JinheeRepository jinheeRepository;
 
-    @Autowired
+    @Autowired // Spring이 JinheeRepository를 주입하도록 하는 애노테이션
     public JinheeService(JinheeRepository jinheeRepository) {
         this.jinheeRepository = jinheeRepository;
     }
 
-    @Transactional
+    @Transactional // 트랜잭션 처리를 위한 애노테이션
     public int post(BlogDTO blogDTO) {
         JinheeBlog newBlog = new JinheeBlog();
         newBlog.setBlogTitle(blogDTO.getBlogTitle());
@@ -62,12 +62,12 @@ public class JinheeService {
         return null;
     }
 
-    @Transactional
+    @Transactional // 트랜잭션 처리를 위한 애노테이션
     public void deleteBlogById(Long id) {
         jinheeRepository.deleteById(id);
     }
 
-    @Transactional
+    @Transactional // 트랜잭션 처리를 위한 애노테이션
     public void saveBlog(BlogDTO blogDTO) {
         JinheeBlog blog = jinheeRepository.findById(blogDTO.getId()).orElse(null);
         if (blog != null) {
@@ -77,7 +77,7 @@ public class JinheeService {
         }
     }
 
-    @Transactional
+    @Transactional // 트랜잭션 처리를 위한 애노테이션
     public void updateBlog(BlogDTO blogDTO) {
         JinheeBlog blog = jinheeRepository.findById(blogDTO.getId()).orElse(null);
         if (blog != null) {

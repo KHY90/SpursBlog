@@ -31,8 +31,7 @@ public class JinheeController {
     public String post(){
         return "jinhee/post";
     }
-    //post 글작성
-    //postpage 글 반환
+
     @GetMapping("/postpage")
     public String postPage(Model model) {
         if (currentBlog != null) {
@@ -41,6 +40,7 @@ public class JinheeController {
         }
         return "jinhee/postpage";
     }
+
     @GetMapping("/postpage/{id}")
     public String postPage(@PathVariable Long id, Model model) {
         BlogDTO blogDTO = jinheeService.getBlogById(id);
@@ -51,30 +51,26 @@ public class JinheeController {
         return "jinhee/postpage";
     }
 
-
-
     @PostMapping
-    public ModelAndView postBlog(BlogDTO blogDTO, ModelAndView mv){
+    public ModelAndView postBlog(BlogDTO blogDTO, ModelAndView mv) {
 
         if(blogDTO.getBlogTitle() == null || blogDTO.getBlogTitle().equals("")){
             mv.setViewName("redirect:/jinhee/post");
         }
         if(blogDTO.getBlogContent() == null || blogDTO.getBlogContent().equals("")){
-            mv.setViewName("redirect:jinhee/post");
+            mv.setViewName("redirect:/jinhee/post");
         }
 
         int result = jinheeService.post(blogDTO);
 
         if(result <= 0){
             mv.setViewName("error/page");
-        }else{
+        } else {
             currentBlog = blogDTO;
             mv.setViewName("redirect:/jinhee/postpage");
         }
         return mv;
     }
-
-
 
     @GetMapping("/edit/{id}")
     public String editBlog(@PathVariable Long id, Model model) {
@@ -91,6 +87,7 @@ public class JinheeController {
         jinheeService.updateBlog(blogDTO);
         return "redirect:/jinhee/journey";
     }
+
     @GetMapping("/delete/{id}")
     public String deleteBlog(@PathVariable Long id, Model model) {
         BlogDTO blogDTO = jinheeService.getBlogById(id);
@@ -106,14 +103,11 @@ public class JinheeController {
         jinheeService.deleteBlogById(id);
         return "redirect:/jinhee/journey";
     }
+
     @GetMapping("/journey")
     public String share(Model model) {
         List<BlogDTO> blogs = jinheeService.getAllBlogs();
         model.addAttribute("blogs", blogs);
         return "jinhee/journey";
     }
-
-
-    }
-
-
+}
