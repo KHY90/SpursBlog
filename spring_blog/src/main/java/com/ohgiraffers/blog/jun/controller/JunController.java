@@ -1,9 +1,10 @@
 package com.ohgiraffers.blog.jun.controller;
 
-import com.ohgiraffers.blog.jun.model.dto.BlogDTO;
+
+import com.ohgiraffers.blog.jun.model.dto.JunBlogDTO;
 import com.ohgiraffers.blog.jun.model.entity.JunBlog;
 import com.ohgiraffers.blog.jun.service.JunService;
-import com.ohgiraffers.blog.jun.service.JunService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,146 +14,120 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-@RequestMapping("/jun")
+@RequestMapping("/jun")     //이 클래스 내의 모든 메소드는 /jun으로 시작하는 URL에 매핑
 public class JunController {
 
+    // JunService 타입의 필드르 선언. 서비스 계층의 메소드를 호출하기 위해 사용됨
+    // 'private final'로 선언해서 반드시 초기화 해야되고(생성자에서), 변경할 수 없음
     private final JunService junService;
-    private BlogDTO currentBlog;
 
+    // JunService의 인스턴스를 주입함
+    // 스프링이 JunController를 생성할 때, JunService의 구현체를 자동으로 주입함
     @Autowired
+    // 생성자 주입 방식으로 'JunService'타입의 객체를 주입받음. 스프링 컨테이너가 'JunController'객체를 생성할 때, 'JunService'타입의 빈을 찾아 생성자의 매개변수로 주입
     public JunController(JunService junService) {
+        // 주입된 JunService 인스턴스를 클래스 필드에 할당하여 초기화함
         this.junService = junService;
     }
 
-    @GetMapping
-    public String jun() {
-        return "/jun/page";
+    //GET 요청을 처리하도록 매핑. /main 을 요청하면 이 메소드가 호출됨
+    @GetMapping("/main")
+    public String mainpage() {
+        return "/jun/main";   // (1) /jun안붙여서 오류 경로 정확히 쓰기
     }
 
-
-    @GetMapping("/junpost")
-    public String postPage(Model model) {
-        if (currentBlog != null) {
-            model.addAttribute("blogTitle", currentBlog.getBlogTitle());
-            model.addAttribute("blogContent", currentBlog.getBlogContent());
-        }
-        return "jun/junpost";
-    }
-
-    @GetMapping("/postpage/{id}")
-    public String postPage(@PathVariable Long id, Model model) {
-        BlogDTO blogDTO = junService.getBlogById(id);
-        if (blogDTO != null) {
-            model.addAttribute("blogTitle", blogDTO.getBlogTitle());
-            model.addAttribute("blogContent", blogDTO.getBlogContent());
-        }
-        return "jun/postpage";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String editBlog(@PathVariable Long id, Model model) {
-        BlogDTO blogDTO = junService.getBlogById(id);
-        if (blogDTO == null) {
-            return "redirect:/jun/junpost-list";
-        }
-        model.addAttribute("blogDTO", blogDTO);
-        return "jun/edit";
-    }
-
-    @PostMapping("/edit/{id}")
-    public String editSubmit(@ModelAttribute BlogDTO blogDTO) {
-        junService.updateBlog(blogDTO);
-        return "redirect:/jun/junpost-list";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String deleteBlog(@PathVariable Long id, Model model) {
-        BlogDTO blogDTO = junService.getBlogById(id);
-        if (blogDTO == null) {
-            return "redirect:/jun/junpost-list";
-        }
-        model.addAttribute("blogDTO", blogDTO);
-        return "jun/delete";
-    }
-
-    @GetMapping("/delete/confirm/{id}")
-    public String deleteConfirm(@PathVariable Long id) {
-        junService.deleteBlogById(id);
-        return "redirect:/jun/junpost-list";
-    }
-
-    @GetMapping("/jun")
-    public String share(Model model) {
-        List<BlogDTO> blogs = junService.getAllBlogs();
-        model.addAttribute("blogs", blogs);
-        return "jun/junpost-list";
+    @GetMapping("/post")
+    public String showPostForm() {
+        return "/jun/post";
     }
 
 
 
+    @GetMapping("//post-detail/{blogid}")
+    public String showdetailpost(){
+        return "/jun/post-detail";
+    }
 
 
 
-
-
-
-
-
-
-
-
-
+    // 게시물을 등록하는 부분
     @PostMapping
-    public ModelAndView postBlog(BlogDTO blogDTO, ModelAndView mv){
-
-        if(blogDTO.getBlogTitle() == null || blogDTO.getBlogTitle().equals("")){
+    // JunBlogDTO와 ModelAndView 객체를 매개변수로 받음 반환타입은 ModelAndView
+    // 데이터 전송객체 JunBlogDTO, 요청 파라미터를 junBlogDTO에 바인딩
+    public ModelAndView postBlog(JunBlogDTO junBlogDTO, ModelAndView mv){
+        // 블로그 제목이 null이거나 빈 문자열인 경우 리다이렉트
+        if(junBlogDTO.getBlogTitle() == null || junBlogDTO.getBlogTitle().equals("")){
             mv.setViewName("redirect:/jun/post");
         }
-        if(blogDTO.getBlogContent() == null || blogDTO.getBlogContent().equals("")){
-            mv.setViewName("redirect:jun/post");
+        // 블로그 내용이 null이거나 빈 문자열인 경우 리다이렉트
+        if(junBlogDTO.getBlogContent() == null || junBlogDTO.getBlogContent().equals("")){
+            mv.setViewName("redirect:/jun/post");
         }
-
-        int result = junService.post(blogDTO);
-
+        // 서비스 클래스의 post 메서드를 호출하여 블로그 게시글을 저장하고 결과를 받음
+        int result = junService.post(junBlogDTO);
+        // 결과가 0 이하인 경우 에러 페이지로 이동
         if(result <= 0){
             mv.setViewName("error/page");
-        }else{
-            currentBlog = blogDTO;
-            mv.setViewName("redirect:/jun/junpost");
+        } else {
+            // 결과가 양수인 경우 성공 페이지로 이동
+            mv.setViewName("jun/post");
         }
+        // ModelAndView 객체를 반환합니다.
         return mv;
     }
-
-    @GetMapping("/review")
-    public String share() {
-        return "/review";
+    // 작성된 글 목록을 보여주는 부분
+    @GetMapping("/post-list")
+    public String getBlogList(Model model) {
+        // JunService를 통해 모든 블로그 게시글을 가져옴
+        List<JunBlog> blogList = junService.getAllBlogs();
+        // Model 객체에 "blogList"라는 이름으로 가져온 블로그 목록을 추가
+        model.addAttribute("blogList", blogList);
+        // 뷰 이름을 반환함. 여기서는 "/jun/post-list"를 반환하여 해당 뷰를 표시하도록 함
+        return "/jun/post-list";
     }
+
+    // 글 상세조회
+    // 1. 게시물 리스트에서 글 보기 버튼 추가
+    // 2. 버튼을 누르면 작성된 글 조회하는 페이지로 넘어감
+
+    // 글 상세조회 메서드 추가
+    // {blogid}는 URL 경로 변수로, 실제 값이 URL에 포함
+    @GetMapping("/post-detail/{blogid}")
+
+    // Long 타입의 blogid는 URL 경로 변수로 전달된 값을 받기 위한 메서드 파라미터
+    public String getBlogDetail(@PathVariable Long blogid, Model model) {
+        // ID를 이용하여 해당 블로그 게시글을 조회
+        JunBlog blog = junService.getBlogById(blogid);
+
+        // 조회한 블로그 게시글을 모델에 추가
+        // "blog"라는 이름으로 blog 객체를 모델에 추가합니다. 이렇게 추가된 데이터는 뷰 템플릿에서 ${blog}와 같이 참조할 수 있음
+        model.addAttribute("blog", blog);
+        // 상세조회 페이지로 이동
+        return "/jun/post-detail";
+    }
+
+
+
+
+
+    // 작성된 글 수정
+    // 1. 글 목록중에 수정하고싶은 게시물로 들어가기
+    // 2. 글 수정 페이지 새로 만들기
+    // 3. 작성된 글의 데이터를 가져오기
+    // -글 작성 페이지 형식으로 돼있는데 작성한 글이 들어가있어야됨
+    // 4.3에서 가져온 글을 수정하고 다시 저장
+    // - 새로운 게시물로 저장되지않고 원래 있던 게시물에 저장돼야함
+
+    // 작성된 글 삭제
+    // 1. 삭제
+
+
+
+
+
+
+
 
 
 }
-
-
-// 메인화면 -> 글 작성 페이지 -> 작성된 글 표시   // 글 목록 화면 연결 안됨
-//
-//
-//
-//메인화면
-//->글 목록 화면
-//-홈 버튼 추가
-//- 게시물 목록에서 게시물 등록, 수정, 삭제 기능
-//-등록
-//-> 글 작성 페이지
-//
-//
-//root계정으로
-//
-//mysql 설정할때 root
-//
-//
-//    url: jdbc:mysql://localhost:3306/gangnam
-//    username: gangnam
-//    password: gangnam
-//    driver-class-name: com.mysql.cj.jdbc.Driver
-//
-//위에 세개만 그대로
 
