@@ -29,13 +29,15 @@ public class JinheeBlog {
     public JinheeBlog() {
     }
 
-    public JinheeBlog(String blogTitle, String blogContent, Date createDate) {
+    public JinheeBlog(Long id, String blogTitle, String blogContent, Date createDate, int likes) {
+        this.id = id;
         this.blogTitle = blogTitle;
         this.blogContent = blogContent;
         this.createDate = createDate;
+        this.likes = likes;
     }
 
-    public Long getId() {
+      public Long getId() {
         return id;
     }
 
