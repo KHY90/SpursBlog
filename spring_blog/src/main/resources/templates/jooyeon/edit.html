@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit</title>
-
-
 </head>
 <body>
 
@@ -18,13 +16,13 @@
         <div class="form-group">
             <label for="blogContent">Content:</label>
             <textarea class="form-control" id="blogContent" th:field="*{blogContent}" rows="5" required></textarea>
+            <a th:href="@{/jooyeon/edit/{id}(id=${blog.id})}" class="btn btn-info btn-sm">수정</a>
         </div>
+        <input type="hidden" th:field="*{id}">
+
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
 </div>
-
-
-
 
 </body>
 </html>

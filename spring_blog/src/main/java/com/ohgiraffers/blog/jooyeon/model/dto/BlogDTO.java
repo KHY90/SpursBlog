@@ -11,6 +11,7 @@ public class BlogDTO {
 
     private String blogTitle;
     private String blogContent;
+    private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -77,7 +78,13 @@ public class BlogDTO {
     }
 
     public Integer getId() {
-        return getId();
+        return id; // getId() 메서드가 id 필드를 반환하도록 수정
     }
+
+    public void setId(Integer id) {
+        this.id = id; // setId() 메서드가 id 필드를 설정하도록 수정
+    }
+
+
 }
 
