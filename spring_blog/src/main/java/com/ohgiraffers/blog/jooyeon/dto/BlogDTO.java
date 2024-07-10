@@ -1,8 +1,8 @@
-package com.ohgiraffers.blog.jaesuk.model.dto;
+package com.ohgiraffers.blog.jooyeon.dto;
 
-import com.ohgiraffers.blog.hwayeon.model.dto.HwayeonBlogDTO;
+public class BlogDTO {
 
-public class BlogDTO extends HwayeonBlogDTO {
+
 
     private String blogTitle;
     private String blogContent;
@@ -10,16 +10,8 @@ public class BlogDTO extends HwayeonBlogDTO {
     public BlogDTO() {
     }
 
-    public BlogDTO(String blogTitle, String blogContent) {
-        this.blogTitle = blogTitle;
+    public BlogDTO(String blogContent, String blogTitle) {
         this.blogContent = blogContent;
-    }
-
-    public String getBlogTitle() {
-        return blogTitle;
-    }
-
-    public void setBlogTitle(String blogTitle) {
         this.blogTitle = blogTitle;
     }
 
@@ -29,6 +21,14 @@ public class BlogDTO extends HwayeonBlogDTO {
 
     public void setBlogContent(String blogContent) {
         this.blogContent = blogContent;
+    }
+
+    public String getBlogTitle() {
+        return blogTitle;
+    }
+
+    public void setBlogTitle(String blogTitle) {
+        this.blogTitle = blogTitle;
     }
 
     @Override

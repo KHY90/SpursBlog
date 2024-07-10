@@ -1,37 +1,42 @@
-package com.ohgiraffers.blog.jaesuk.model.entity;
+package com.ohgiraffers.blog.hyoyeon.model.entity;
 
 import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
-@Table(name = "jaesuk_blog")
-public class JaesukBlog {
+@Table(name = "hyoyeon_table")
+public class HyoBlog {
 
     @Id
     @Column(name = "blog_no")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int blogNo; // Interger랑 차이는 뭐지?
+    private int blogNo;
 
     @Column(name = "blog_title", unique = true, nullable = false)
     private String blogTitle;
 
-    @Column(name = "blog_content", nullable = false, length = 5000)
+    @Column(name = "blog_content", nullable = false, length = 5000 )
     private String blogContent;
 
     @Column(name = "creation_date")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
+    private Date createdDate;
 
+    @Column(name = "updation_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedDate;
 
-    public JaesukBlog() {
+    public HyoBlog( ) {
+
     }
 
-    public JaesukBlog(int blogNo, String blogTitle, String blogContent, Date createDate) {
+    public HyoBlog(int blogNo, String blogTitle, String blogContet, Date createdDate, Date updatedDate) {
         this.blogNo = blogNo;
         this.blogTitle = blogTitle;
-        this.blogContent = blogContent;
-        this.createDate = createDate;
+        this.blogContent = blogContet;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
     }
 
     public int getBlogNo() {
@@ -58,21 +63,31 @@ public class JaesukBlog {
         this.blogContent = blogContent;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
     @Override
     public String toString() {
-        return "JaesukBlog{" +
+        return "HyoBlog{" +
                 "blogNo=" + blogNo +
                 ", blogTitle='" + blogTitle + '\'' +
-                ", blogContent='" + blogContent + '\'' +
-                ", createDate=" + createDate +
+                ", blogContet='" + blogContent + '\'' +
+                ", createdDate=" + createdDate +
+                ", updatedDate=" + updatedDate +
                 '}';
     }
+
 }

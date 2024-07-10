@@ -1,6 +1,6 @@
 package com.ohgiraffers.blog.jooyeon.repository;
 
-import com.ohgiraffers.blog.jooyeon.model.entity.JooyeonBlog;
+import com.ohgiraffers.blog.jooyeon.entity.JooyeonBlog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
