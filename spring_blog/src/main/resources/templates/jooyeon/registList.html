@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <div class="post-list">
+        <h2>게시글 목록</h2>
+        <!-- 게시글이 없는 경우 -->
+        <!--        <div th:if="${#lists.isEmpty(blogDTOs)}">-->
+        <!--            <p>등록된 게시글이 없습니다.</p>-->
+        <!--        </div>-->
+        <!-- 게시글이 있는 경우 -->
+        <div th:each="blog : ${blogDTOs}" class="post-item">
+            <h3 th:text="${blog.blogTitle}">게시글 제목</h3>
+            <p th:text="${blog.blogContent}">게시글 내용</p>
+        </div>
+        <!-- 게시글이 없는 경우 -->
+<!--        <div th:if="${#lists.isEmpty(blogDTOs)}">-->
+
+<!--        &lt;!&ndash; 게시글이 있는 경우 &ndash;&gt;-->
+<!--        <div th:each="blog : ${blogDTOs}" class="post-item">-->
+<!--            &lt;!&ndash;            <div th:each="blog : ${blogDTOs}" class="post-item">&ndash;&gt;-->
+<!--            <h3 th:text="${blogTitle}">게시글 제목</h3>-->
+<!--            <h3 th:text="${blogContent}">게시글 내용</h3>-->
+<!--            <p>작성일: <span th:text="${#dates.format(blog.createDate, 'yyyy-MM-dd HH:mm')}">작성일시</span></p>-->
+            <!--                <p>작성일: <span th:text="${#dates.format(blog.createDate, 'yyyy-MM-dd HH:mm')}">작성일시</span></p>-->
+
+            <!-- 수정 및 삭제 링크 -->
+            <!--                <div>-->
+            <!--                    <a th:href="@{/jooyeon/{blogNo}/edit(blogNo=${blog.id})}" class="btn btn-primary btn-sm">수정</a>-->
+            <!--                    <a th:href="@{/jooyeon/{blogNo}/delete(blogNo=${blog.id})}" class="btn btn-danger btn-sm">삭제</a>-->
+            <!--                </div>-->
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+</body>
+</html>
