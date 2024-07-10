@@ -26,16 +26,11 @@
 
 
             <!-- 수정 폼 -->
-            <form th:action="@{/hwayeon/editpage}" method="get">
+            <form th:action="@{/hwayeon/modifypage}" method="get">
                 <input type="hidden" th:value="${blogNo}" name="blogNo"/>
                 <div class="modifybutton">
                     <button type="submit">수정</button>
                 </div>
-            </form>
-            <!-- 삭제 폼 -->
-            <form th:action="@{'/hwayeon/delete/' + ${blogNo}}" method="post">
-                <input type="hidden" name="_method" value="delete" />
-                <button type="submit" class="btn btn-danger">삭제</button>
             </form>
         </div>
     </section>

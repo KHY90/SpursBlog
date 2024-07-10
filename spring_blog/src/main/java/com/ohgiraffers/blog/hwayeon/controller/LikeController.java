@@ -17,7 +17,7 @@ public class LikeController {
         this.hwayeonService = hwayeonService;
     }
 
-    @PostMapping("/like/{blogNo}")
+    @PostMapping("/hwayeon/listpage/like/{blogNo}")
     public ResponseEntity<Void> likePost(@PathVariable Integer blogNo) {
         hwayeonService.likePost(blogNo);
         return ResponseEntity.ok().build();

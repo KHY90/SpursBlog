@@ -90,9 +90,15 @@ public class HwayeonService {
     }
 
     // 게시글 삭제
-    public void deletePost(Integer blogNo) {
-        // 게시글 번호로 데이터베이스에서 게시글 삭제
-        hwayeonRepository.deleteById(blogNo);
+    public boolean deletePost(Integer blogNo) {
+        // 게시글 번호로 데이터베이스에서 게시글 삭제 시도
+        try {
+            hwayeonRepository.deleteById(blogNo);
+            return true; // 삭제 성공
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false; // 삭제 실패
+        }
     }
 
     @Transactional
