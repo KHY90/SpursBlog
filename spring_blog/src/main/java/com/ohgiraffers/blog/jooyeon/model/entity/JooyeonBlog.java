@@ -1,45 +1,45 @@
-package com.ohgiraffers.blog.jun.model.entity;
-
+package com.ohgiraffers.blog.jooyeon.model.entity;
 
 import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
-@Table(name = "jun_blog")
-public class JunBlog {
+@Table(name = "jooyeon_blog")
+public class JooyeonBlog {
 
     @Id
-    @Column(name = "blog_id")
+    @Column(name = "blog_no")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int blogNo;
 
-    @Column(name = "blog_title", unique = true, nullable = false)
+    @Column(name = "blog_title",unique = true, nullable = false)
     private String blogTitle;
 
-    @Column(name = "blog_content", nullable = false, length = 5000)
+    //블로그 글자제한 length
+    @Column(name = "blog_content",nullable = false,length = 5000)
     private String blogContent;
 
     @Column(name = "creation_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
-    public JunBlog() {
+    public JooyeonBlog() {
     }
 
-    public JunBlog(Long id, String blogTitle, String blogContent, Date createDate) {
-        this.id = id;
+    public JooyeonBlog(int blogNo, String blogTitle, String blogContent, Date createDate) {
+        this.blogNo = blogNo;
         this.blogTitle = blogTitle;
         this.blogContent = blogContent;
         this.createDate = createDate;
     }
 
-    public Long getId() {
-        return id;
+    public int getBlogNo() {
+        return blogNo;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setBlogNo(int blogNo) {
+        this.blogNo = blogNo;
     }
 
     public String getBlogTitle() {
@@ -66,13 +66,14 @@ public class JunBlog {
         this.createDate = createDate;
     }
 
-    @Override
-    public String toString() {
-        return "JunBlog{" +
-                "id=" + id +
-                ", blogTitle='" + blogTitle + '\'' +
-                ", blogContent='" + blogContent + '\'' +
-                ", createDate=" + createDate +
-                '}';
+
+
+    // 추가된 setId 메서드
+    public void setId(int blogNo) {
+        this.blogNo = blogNo;
+    }
+
+    public String getId() {
+        return getId();
     }
 }
