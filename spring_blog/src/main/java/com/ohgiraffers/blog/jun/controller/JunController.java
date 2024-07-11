@@ -91,22 +91,15 @@ public class JunController {
     // 2. 버튼을 누르면 작성된 글 조회하는 페이지로 넘어감
 
     // 글 상세조회 메서드 추가
-    // {blogid}는 URL 경로 변수로, 실제 값이 URL에 포함
     @GetMapping("/post-detail/{blogid}")
-
-    // Long 타입의 blogid는 URL 경로 변수로 전달된 값을 받기 위한 메서드 파라미터
     public String getBlogDetail(@PathVariable Long blogid, Model model) {
         // ID를 이용하여 해당 블로그 게시글을 조회
         JunBlog blog = junService.getBlogById(blogid);
-
         // 조회한 블로그 게시글을 모델에 추가
-        // "blog"라는 이름으로 blog 객체를 모델에 추가합니다. 이렇게 추가된 데이터는 뷰 템플릿에서 ${blog}와 같이 참조할 수 있음
         model.addAttribute("blog", blog);
         // 상세조회 페이지로 이동
         return "/jun/post-detail";
     }
-
-
 
 
 
@@ -118,16 +111,38 @@ public class JunController {
     // 4.3에서 가져온 글을 수정하고 다시 저장
     // - 새로운 게시물로 저장되지않고 원래 있던 게시물에 저장돼야함
 
-    // 작성된 글 삭제
-    // 1. 삭제
+
+    @GetMapping("/post-edit")
+    public String showUpdateForm(@RequestParam("id") Long id, Model model) {
+        JunBlog blog = junService.getBlogById(id);
+        JunBlogDTO blogDTO = new JunBlogDTO();
+        blogDTO.setId(blog.getId());
+        blogDTO.setBlogTitle(blog.getBlogTitle());
+        blogDTO.setBlogContent(blog.getBlogContent());
+        model.addAttribute("junBlogDTO", blogDTO);
+        return "/jun/post-edit";
+    }
 
 
 
+//        JunBlog blog = junService.getBlogById(blogid);
+//        model.addAttribute("blog", blog);
+//        return "/jun/post-edit";
+
+    @PostMapping("/update")
+    public String updatePost(@ModelAttribute("junBlogDTO") JunBlogDTO junBlogDTO) {
+        JunBlog updatedPost = junService.updatePost(junBlogDTO);
+        // 수정 성공 시, 수정된 게시물 상세 페이지로 리다이렉트
+        return "redirect:/jun/post-detail/" + updatedPost.getId();
+    }
 
 
 
-
-
+//    @PostMapping("/update")
+//    public ResponseEntity<JunBlog> updatePost(@RequestBody JunBlogDTO junBlogDTO) {
+//        JunBlog updatedPost = junService.updatePost(junBlogDTO);
+//        return ResponseEntity.ok(updatedPost);
+//    }
 
 }
 
