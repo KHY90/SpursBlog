@@ -77,15 +77,15 @@ public class JunService  {
     }
 
     // 글 수정
+    // 글 수정
 
-    // 글 삭제
-
-    // 게시물 삭제
-    @Transactional
-    public void deletePost(Long blogId) {
-        junRepository.deleteById(blogId);
+    public JunBlog updatePost(JunBlogDTO junBlogDTO) {
+        JunBlog junBlog = junRepository.findById(junBlogDTO.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid post Id:" + junBlogDTO.getId()));
+        junBlog.setBlogTitle(junBlogDTO.getBlogTitle());
+        junBlog.setBlogContent(junBlogDTO.getBlogContent());
+        return junRepository.save(junBlog);
     }
-
 
 
 }
