@@ -16,6 +16,10 @@
     <section class="services">
         <!-- 게시글 리스트 시작 -->
         <div class="container">
+<<<<<<< Updated upstream
+=======
+            <p>Blog No: <span th:text="${blogNo}"></span></p>
+>>>>>>> Stashed changes
             <div class="blogtitle">
                 <p><span th:text="${blogTitle}">블로그 제목</span></p>
 <!--                <p><span th:text="${createDate}">작성시간</span></p>-->
@@ -26,17 +30,48 @@
 
 
             <!-- 수정 폼 -->
+<<<<<<< Updated upstream
             <form th:action="@{/hwayeon/modifypage}" method="get">
                 <input type="hidden" th:value="${blogNo}" name="blogNo"/>
+=======
+            <form id="modifyForm" th:action="@{/hwayeon/modifypage}" method="get">
+                <input type="hidden" th:value="${blog.blogNo}" name="blogNo"/>
+>>>>>>> Stashed changes
                 <div class="modifybutton">
                     <button type="submit">수정</button>
                 </div>
             </form>
+<<<<<<< Updated upstream
+=======
+<!--            <form th:action="@{/hwayeon/modifypage}" method="get">-->
+<!--                <input type="hidden" th:value="${blogNo}" name="blogNo"/>-->
+<!--                <div class="modifybutton">-->
+<!--                    <button type="submit">수정</button>-->
+<!--                </div>-->
+<!--            </form>-->
+>>>>>>> Stashed changes
         </div>
     </section>
 </main>
 
 <!--풋터영역-->
 <div th:insert="khyfragments/footer :: footerFragment"></div>
+<<<<<<< Updated upstream
+=======
+
+<!--  수정 버튼용 자바스크립트  -->
+<script type="text/javascript">
+    function modifyPost() {
+        var blogNo = document.getElementById("blogNo").value;
+        console.log("BlogNo from JavaScript: " + blogNo);  // 디버깅을 위한 로그 추가
+        if (blogNo) {
+            window.location.href = "/hwayeon/modifypage?blogNo=" + blogNo;
+        } else {
+            alert("Invalid blog number");
+        }
+    }
+</script>
+
+>>>>>>> Stashed changes
 </body>
 </html>

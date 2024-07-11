@@ -9,8 +9,8 @@ import java.util.Date;
 public class HwayeonBlog {
 
     @Id
-    @Column(name = "blog_no")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "blog_no")
     private Integer blogNo;
 
     @Column(name = "blog_title", unique = true, nullable = false)
