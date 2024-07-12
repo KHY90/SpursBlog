@@ -87,5 +87,13 @@ public class JunService  {
         return junRepository.save(junBlog);
     }
 
+// 게시물 삭제
+
+    @Transactional
+    public void deleteBlog(Long id) {
+        junRepository.deleteById(id);
+    }
+
+
 
 }
