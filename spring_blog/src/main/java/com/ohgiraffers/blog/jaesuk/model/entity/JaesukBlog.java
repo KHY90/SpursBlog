@@ -3,98 +3,74 @@ package com.ohgiraffers.blog.jaesuk.model.entity;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "jaesuk_blog")
 public class JaesukBlog {
 
     @Id
-    @Column(name = "blog_no")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // 기본 키 값을 자동 생성합니다.
-    private int blogNo; // int와 Integer의 차이는 int는 기본형이고, Integer는 객체형입니다.
-
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int blogNo; // Interger랑 차이는 뭐지?
+    private Integer id;
 
-    @Column(name = "blog_title", unique = true, nullable = false)
-    private String blogTitle;
+    @Column(name = "title", nullable = false)
+    private String title;
 
-    @Column(name = "blog_content", nullable = false, length = 5000)
-    private String blogContent;
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int blogNo;
-
-    @Column(name = "blog_title", nullable = false)
-    private String blogTitle;
-
-    @Column(name = "blog_content", nullable = false, length = 5000)
-    private String blogContent = ""; // 기본값 설정
+    @Column(name = "content", nullable = false, length = 5000)
+    private String content = "";
 
     @Column(name = "creation_date")
-    @Temporal(TemporalType.TIMESTAMP)  // 날짜와 시간을 저장합니다.
-    private Date createDate;
-
-    // 기본 생성자입니다.
-
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createDate = new Date(); // 기본값으로 현재 날짜 설정
+    private Date creationDate = new Date();
 
-    @Transient // DB에 저장되지 않는 필드
+    @Transient
     private String formattedDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
-
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<JaesukComment> jaesukComments = new ArrayList<>();
 
     public JaesukBlog() {
     }
 
-    public JaesukBlog(int blogNo, String blogTitle, String blogContent, Date createDate) {
-        this.blogNo = blogNo;
-        this.blogTitle = blogTitle;
-        this.blogContent = blogContent;
-        this.createDate = createDate;
+    public JaesukBlog(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 
-    // blogNo 필드의 값을 반환합니다.
-
-    // Getter and Setter methods
-    public int getBlogNo() {
-        return blogNo;
+    public Integer getId() {
+        return id;
     }
 
-    public void setBlogNo(int blogNo) {
-        this.blogNo = blogNo;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getBlogTitle() {
-        return blogTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setBlogTitle(String blogTitle) {
-        this.blogTitle = blogTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getBlogContent() {
-        return blogContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setBlogContent(String blogContent) {
-        this.blogContent = blogContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
-
-    // 객체의 문자열 표현을 반환합니다.
 
     public String getFormattedDate() {
         return formattedDate;
@@ -104,13 +80,31 @@ public class JaesukBlog {
         this.formattedDate = formattedDate;
     }
 
+    public List<JaesukComment> getComments() {
+        return jaesukComments;
+    }
+
+    public void setComments(List<JaesukComment> jaesukComments) {
+        this.jaesukComments = jaesukComments;
+    }
+
+    public void addComment(JaesukComment jaesukComment) {
+        jaesukComments.add(jaesukComment);
+        jaesukComment.setBlog(this);
+    }
+
+    public void removeComment(JaesukComment jaesukComment) {
+        jaesukComments.remove(jaesukComment);
+        jaesukComment.setBlog(null);
+    }
+
     @Override
     public String toString() {
         return "JaesukBlog{" +
-                "blogNo=" + blogNo +
-                ", blogTitle='" + blogTitle + '\'' +
-                ", blogContent='" + blogContent + '\'' +
-                ", createDate=" + createDate +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", creationDate=" + creationDate +
                 ", formattedDate='" + formattedDate + '\'' +
                 '}';
     }
