@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>새 글 작성</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2>새 글 작성</h2>
+    <form th:action="@{/jaesuk/post}" method="post" th:object="${post}">
+        <div class="form-group">
+            <label for="blogTitle">제목</label>
+            <input type="text" class="form-control" id="blogTitle" th:field="*{blogTitle}" required>
+        </div>
+        <div class="form-group">
+            <label for="blogContent">내용</label>
+            <textarea class="form-control" id="blogContent" th:field="*{blogContent}" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">저장</button>
+        <a th:href="@{/jaesuk}" class="btn btn-secondary">취소</a>
+    </form>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</body>
+</html>

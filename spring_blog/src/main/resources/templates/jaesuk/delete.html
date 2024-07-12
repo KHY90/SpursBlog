@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 삭제</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2>게시글 삭제</h2>
+    <p>정말로 이 게시글을 삭제하시겠습니까?</p>
+    <button id="confirmDelete" class="btn btn-danger">삭제</button>
+    <a href="/jaesuk" class="btn btn-secondary">취소</a>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        const postId = window.location.pathname.split('/').pop();
+
+        $('#confirmDelete').click(function() {
+            let posts = JSON.parse(localStorage.getItem('posts')) || [];
+            posts = posts.filter(p => p.id !== parseInt(postId));
+            localStorage.setItem('posts', JSON.stringify(posts));
+            window.location.href = '/jaesuk';
+        });
+    });
+</script>
+</body>
+</html>

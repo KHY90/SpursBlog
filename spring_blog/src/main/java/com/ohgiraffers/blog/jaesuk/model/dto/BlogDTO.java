@@ -1,11 +1,17 @@
 package com.ohgiraffers.blog.jaesuk.model.dto;
 
-import com.ohgiraffers.blog.hwayeon.model.dto.HwayeonBlogDTO;
+import org.springframework.stereotype.Component;
 
-public class BlogDTO extends HwayeonBlogDTO {
+import java.util.Date;
+
+@Component
+
+public class BlogDTO {
+    private Integer blogNo;
 
     private String blogTitle;
     private String blogContent;
+    private Date createDate;
 
     public BlogDTO() {
     }

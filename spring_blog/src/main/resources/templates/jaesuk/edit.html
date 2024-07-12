@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- 기존 head 내용 유지 -->
+</head>
+<body>
+<div class="container">
+    <h2>게시글 수정</h2>
+    <form id="editForm">
+        <!-- 기존 form 내용 유지 -->
+    </form>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        let postId;
+        try {
+            postId = parseInt(window.location.pathname.split('/').pop());
+        } catch (error) {
+            console.error('Invalid postId in URL:', error);
+            alert('잘못된 게시글 ID입니다.');
+            window.location.href = '/jaesuk';
+            return;
+        }
+
+        let posts;
+        try {
+            posts = JSON.parse(localStorage.getItem('posts')) || [];
+        } catch (error) {
+            console.error('Error parsing posts from localStorage:', error);
+            posts = [];
+        }
+
+        const post = posts.find(p => p.id === postId);
+
+        if (post) {
+            $('#postId').val(post.id);
+            $('#title').val(post.title);
+            $('#content').val(post.content);
+            $('#author').val(post.author);
+        } else {
+            console.error('Post not found:', postId);
+            alert('게시글을 찾을 수 없습니다.');
+            window.location.href = '/jaesuk';
+            return;
+        }
+
+        $('#editForm').submit(function(e) {
+            e.preventDefault();
+            const id = parseInt($('#postId').val());
+            const title = $('#title').val();
+            const content = $('#content').val();
+            const author = $('#author').val();
+
+            const postIndex = posts.findIndex(post => post.id === id);
+            if (postIndex !== -1) {
+                posts[postIndex] = {...posts[postIndex], title, content, author};
+                try {
+                    localStorage.setItem('posts', JSON.stringify(posts));
+                    alert('게시글이 수정되었습니다.');
+                    window.location.href = '/jaesuk';
+                } catch (error) {
+                    console.error('Error saving to localStorage:', error);
+                    alert('게시글 저장 중 오류가 발생했습니다.');
+                }
+            } else {
+                alert('게시글을 찾을 수 없습니다.');
+            }
+        });
+    });
+</script>
+</body>
+</html>
