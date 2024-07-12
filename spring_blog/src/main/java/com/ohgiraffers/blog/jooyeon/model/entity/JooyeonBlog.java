@@ -9,15 +9,14 @@ import java.util.Date;
 public class JooyeonBlog {
 
     @Id
-    @Column(name = "blog_no")
+    @Column(name = "blog_id") // 컬럼 이름도 변경
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int blogNo;
+    private int id; // blogNo를 id로 변경
 
-    @Column(name = "blog_title",unique = true, nullable = false)
+    @Column(name = "blog_title", unique = true, nullable = false)
     private String blogTitle;
 
-    //블로그 글자제한 length
-    @Column(name = "blog_content",nullable = false,length = 5000)
+    @Column(name = "blog_content", nullable = false, length = 5000)
     private String blogContent;
 
     @Column(name = "creation_date")
@@ -25,21 +24,23 @@ public class JooyeonBlog {
     private Date createDate;
 
     public JooyeonBlog() {
+
+
     }
 
-    public JooyeonBlog(int blogNo, String blogTitle, String blogContent, Date createDate) {
-        this.blogNo = blogNo;
+    public JooyeonBlog(int id, String blogTitle, String blogContent, Date createDate) {
+        this.id = id;
         this.blogTitle = blogTitle;
         this.blogContent = blogContent;
         this.createDate = createDate;
     }
 
-    public int getBlogNo() {
-        return blogNo;
+    public int getId() {
+        return id;
     }
 
-    public void setBlogNo(int blogNo) {
-        this.blogNo = blogNo;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getBlogTitle() {
@@ -66,14 +67,16 @@ public class JooyeonBlog {
         this.createDate = createDate;
     }
 
-
-
-    // 추가된 setId 메서드
-    public void setId(int blogNo) {
-        this.blogNo = blogNo;
+    @Override
+    public String toString() {
+        return "JooyeonBlog{" +
+                "id=" + id +
+                ", blogTitle='" + blogTitle + '\'' +
+                ", blogContent='" + blogContent + '\'' +
+                ", createDate=" + createDate +
+                '}';
     }
 
-    public String getId() {
-        return getId();
-    }
+
 }
+

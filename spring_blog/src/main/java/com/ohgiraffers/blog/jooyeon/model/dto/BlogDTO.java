@@ -1,9 +1,6 @@
 package com.ohgiraffers.blog.jooyeon.model.dto;
 
 import com.ohgiraffers.blog.jinhee.model.entity.User;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 import java.util.Date;
 
@@ -12,21 +9,25 @@ public class BlogDTO {
     private String blogTitle;
     private String blogContent;
     private int id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
     private User user;
-
     private String registerDate;
+
 
     public BlogDTO() {
     }
 
-    public BlogDTO(String blogTitle, String blogContent, User user, String registerDate) {
+    public BlogDTO(String blogTitle, String blogContent, int id, User user, String registerDate) {
         this.blogTitle = blogTitle;
         this.blogContent = blogContent;
+        this.id = id;
         this.user = user;
         this.registerDate = registerDate;
+    }
+
+    public void setId(String s) {
+    }
+
+    public void setCreateDate(Date createDate) {
     }
 
     public String getBlogTitle() {
@@ -43,6 +44,10 @@ public class BlogDTO {
 
     public void setBlogContent(String blogContent) {
         this.blogContent = blogContent;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public User getUser() {
@@ -66,15 +71,10 @@ public class BlogDTO {
         return "BlogDTO{" +
                 "blogTitle='" + blogTitle + '\'' +
                 ", blogContent='" + blogContent + '\'' +
+                ", id=" + id +
                 ", user=" + user +
                 ", registerDate='" + registerDate + '\'' +
                 '}';
-    }
-
-    public void setId(String s) {
-    }
-
-    public void setCreateDate(Date createDate) {
     }
 
     public Integer getId() {
