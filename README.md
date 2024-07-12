@@ -44,6 +44,7 @@
 <summary>신주연 : </summary>
 <div markdown="1">
 0703 : 주연블로그 수정
+0712 : 수정,삭제 구현
 
 
 </div>
