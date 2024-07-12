@@ -1,9 +1,7 @@
 package com.ohgiraffers.blog.jaesuk.service;
 
-// 필요한 클래스들을 가져옵니다.
-
-import com.ohgiraffers.blog.jaesuk.model.dto.BlogDTO;
 import com.ohgiraffers.blog.jaesuk.model.entity.JaesukBlog;
+import com.ohgiraffers.blog.jaesuk.model.entity.JaesukComment;
 import com.ohgiraffers.blog.jaesuk.repository.JaesukRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,14 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JaesukService {
 
-    // JaesukRepository를 사용합니다.
-
     private static final Logger logger = LoggerFactory.getLogger(JaesukService.class);
-
     private final JaesukRepository jaesukRepository;
 
     @Autowired
@@ -29,39 +25,9 @@ public class JaesukService {
         this.jaesukRepository = jaesukRepository;
     }
 
-
-    // 이 메서드는 트랜잭션으로 처리됩니다.
-
-    @Transactional
-    public int post(BlogDTO blogDTO) {
-        List<JaesukBlog> jaesukBlogs = jaesukRepository.findAll();
-        // 도메인 로직
-        for (JaesukBlog blog: jaesukBlogs) {
-            if(blog.getBlogTitle().equals(blogDTO.getBlogTitle())){
-                return 0;
-            }
-        }
-
-        JaesukBlog saveBlog = new JaesukBlog();
-        saveBlog.setBlogContent(blogDTO.getBlogContent());
-        saveBlog.setBlogTitle(blogDTO.getBlogTitle());
-        saveBlog.setCreateDate(new Date());
-        JaesukBlog result  = jaesukRepository.save(saveBlog);
-
-        int resultValue = 0;
-
-        if(result != null){
-            resultValue = 1;
-        }
-
-        return resultValue;
-    }
-}
     public List<JaesukBlog> getAllPosts() {
         List<JaesukBlog> posts = jaesukRepository.findAll();
-        for (JaesukBlog post : posts) {
-            setFormattedDate(post);
-        }
+        posts.forEach(this::setFormattedDate);
         logger.info("Fetched {} posts", posts.size());
         return posts;
     }
@@ -81,40 +47,87 @@ public class JaesukService {
 
     @Transactional
     public JaesukBlog createPost(JaesukBlog post) {
-        if (post.getBlogTitle() == null || post.getBlogTitle().trim().isEmpty()) {
-            post.setBlogTitle("");
+        if (post.getTitle() == null || post.getTitle().trim().isEmpty()) {
+            post.setTitle("(제목 없음)");
         }
-        if (post.getCreateDate() == null) {
-            post.setCreateDate(new Date());
-        }
+        post.setCreationDate(new Date());
         JaesukBlog savedPost = jaesukRepository.save(post);
         setFormattedDate(savedPost);
-        logger.info("Created new post: id={}, title={}", savedPost.getBlogNo(), savedPost.getBlogTitle());
+        logger.info("Created new post: id={}, title={}", savedPost.getId(), savedPost.getTitle());
         return savedPost;
     }
 
     @Transactional
     public JaesukBlog updatePost(Integer id, JaesukBlog updatedPost) {
-        JaesukBlog post = getPostById(id);
-        post.setBlogTitle(updatedPost.getBlogTitle());
-        post.setBlogContent(updatedPost.getBlogContent());
-        JaesukBlog savedPost = jaesukRepository.save(post);
-        setFormattedDate(savedPost);
-        logger.info("Updated post: id={}, title={}", savedPost.getBlogNo(), savedPost.getBlogTitle());
-        return savedPost;
+        return jaesukRepository.findById(id)
+                .map(post -> {
+                    post.setTitle(updatedPost.getTitle());
+                    post.setContent(updatedPost.getContent());
+                    JaesukBlog savedPost = jaesukRepository.save(post);
+                    setFormattedDate(savedPost);
+                    logger.info("Updated post: id={}, title={}", savedPost.getId(), savedPost.getTitle());
+                    return savedPost;
+                })
+                .orElseThrow(() -> {
+                    logger.error("Post not found for update with id: {}", id);
+                    return new RuntimeException("Post not found for update with id: " + id);
+                });
     }
 
     @Transactional
-    public void deletePost(Integer id) {
-        JaesukBlog post = getPostById(id);
-        jaesukRepository.delete(post);
-        logger.info("Deleted post: id={}", id);
+    public void addCommentToPost(Integer postId, JaesukComment comment) {
+        JaesukBlog post = getPostById(postId);
+        if (post != null) {
+            comment.setBlog(post);
+            post.addComment(comment);
+            jaesukRepository.save(post);
+            logger.info("Added comment to post with id: {}", postId);
+        } else {
+            logger.error("Failed to add comment. Post not found with id: {}", postId);
+            throw new RuntimeException("Post not found with id: " + postId);
+        }
+    }
+
+    @Transactional
+    public boolean deletePost(Integer id) {
+        try {
+            Optional<JaesukBlog> postOptional = jaesukRepository.findById(id);
+            if (postOptional.isPresent()) {
+                jaesukRepository.delete(postOptional.get());
+                logger.info("Deleted post: id={}", id);
+                return true;
+            } else {
+                logger.warn("Post not found for deletion with id: {}", id);
+                return false;
+            }
+        } catch (Exception e) {
+            logger.error("Error deleting post with id: {}", id, e);
+            return false;
+        }
+    }
+
+    @Transactional
+    public void deleteComment(Integer postId, Long commentId) {
+        JaesukBlog post = getPostById(postId);
+        if (post != null) {
+            boolean removed = post.getComments().removeIf(comment -> comment.getId().equals(commentId));
+            if (removed) {
+                jaesukRepository.save(post);
+                logger.info("Deleted comment with id: {} from post with id: {}", commentId, postId);
+            } else {
+                logger.warn("Comment with id: {} not found in post with id: {}", commentId, postId);
+                throw new RuntimeException("Comment not found with id: " + commentId);
+            }
+        } else {
+            logger.error("Failed to delete comment. Post not found with id: {}", postId);
+            throw new RuntimeException("Post not found with id: " + postId);
+        }
     }
 
     private void setFormattedDate(JaesukBlog post) {
-        if (post.getCreateDate() != null) {
+        if (post.getCreationDate() != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("MM월 dd일 HH:mm");
-            post.setFormattedDate(sdf.format(post.getCreateDate()));
+            post.setFormattedDate(sdf.format(post.getCreationDate()));
         }
     }
 }

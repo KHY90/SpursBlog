@@ -1,85 +1,34 @@
 package com.ohgiraffers.blog.jaesuk.controller;
 
-// BlogDTO 클래스를 가져옵니다.
-import com.ohgiraffers.blog.jaesuk.model.dto.BlogDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
-@Controller
-
-// "/jaesuk"으로 시작하는 URL 요청을 처리합니다.
-
 import com.ohgiraffers.blog.jaesuk.model.entity.JaesukBlog;
-import com.ohgiraffers.blog.jaesuk.repository.JaesukRepository;
+import com.ohgiraffers.blog.jaesuk.model.entity.JaesukComment;
+import com.ohgiraffers.blog.jaesuk.service.JaesukLikeService;
 import com.ohgiraffers.blog.jaesuk.service.JaesukService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/jaesuk")
 public class JaesukController {
 
-    // JaesukService라는 서비스를 사용합니다.
-
-    private final com.ohgiraffers.blog.jaesuk.service.JaesukService JaesukService;
-
-    @Autowired
-    public JaesukController(com.ohgiraffers.blog.jaesuk.service.JaesukService jaesukService) {
-        this.JaesukService = jaesukService;
-    }
-
-    @GetMapping
-    public String indexJaesuk(){
-        return "jaesuk/page";
-    }
-
-    @PostMapping
-    public ModelAndView postBlog(BlogDTO blogDTO, ModelAndView mv){
-
-        if(blogDTO.getBlogTitle() == null || blogDTO.getBlogTitle().equals("")){
-            mv.setViewName("redirect:jaesuk");
-        }
-        if(blogDTO.getBlogContent() == null || blogDTO.getBlogContent().equals("")){
-            mv.setViewName("redirect:jaesuk");
-        }
-
-        int result = JaesukService.post(blogDTO);
-
-        if(result <= 0){
-            mv.setViewName("error/page");
-        }else{
-            mv.setViewName("jaesuk/page");
-        }
-
-        return mv;
-    }
-
-    // HTTP 주석 달기 - POST 매핑 개념 설명
-    // POST 매핑은 데이터를 서버로 보낼 때 사용됩니다.
-
     private final JaesukService jaesukService;
+    private final JaesukLikeService jaesukLikeService;
     private static final Logger logger = LoggerFactory.getLogger(JaesukController.class);
-    private final JaesukRepository jaesukRepository;
 
-    public List<JaesukBlog> getAllPosts() {
-        List<JaesukBlog> posts = jaesukRepository.findAll();
-        return posts != null ? posts : new ArrayList<>();
-    }
     @Autowired
-    public JaesukController(JaesukService jaesukService, JaesukRepository jaesukRepository) {
+    public JaesukController(JaesukService jaesukService, JaesukLikeService jaesukLikeService) {
         this.jaesukService = jaesukService;
-        this.jaesukRepository = jaesukRepository;
+        this.jaesukLikeService = jaesukLikeService;
     }
 
     @GetMapping("")
@@ -97,55 +46,105 @@ public class JaesukController {
     }
 
     @GetMapping("/post")
-    public ModelAndView showNewPostForm() {
-        ModelAndView mav = new ModelAndView("jaesuk/post");
-        mav.addObject("post", new JaesukBlog());
-        return mav;
+    public String showPostForm(Model model) {
+        model.addAttribute("post", new JaesukBlog());
+        return "jaesuk/post";
     }
 
     @PostMapping("/post")
-    public ModelAndView createNewPost(@ModelAttribute JaesukBlog post) {
-        ModelAndView mav = new ModelAndView("redirect:/jaesuk");
+    public String createNewPost(@ModelAttribute JaesukBlog post, RedirectAttributes redirectAttributes) {
         try {
             JaesukBlog savedPost = jaesukService.createPost(post);
-            logger.info("Created new post: id={}, title={}", savedPost.getBlogNo(), savedPost.getBlogTitle());
-            mav.addObject("message", "게시글이 성공적으로 작성되었습니다.");
+            redirectAttributes.addFlashAttribute("message", "게시글이 성공적으로 작성되었습니다.");
+            return "redirect:/jaesuk";
         } catch (Exception e) {
-            logger.error("Error creating new post", e);
-            mav.setViewName("redirect:/jaesuk/post");
-            mav.addObject("error", "게시글 작성 중 오류가 발생했습니다.");
+            redirectAttributes.addFlashAttribute("error", "게시글 작성 중 오류가 발생했습니다.");
+            return "redirect:/jaesuk/post";
+        }
+    }
+
+    @GetMapping("/post/{id}")
+    public ModelAndView viewPost(@PathVariable Integer id) {
+        ModelAndView mav = new ModelAndView("jaesuk/check");
+        try {
+            JaesukBlog post = jaesukService.getPostById(id);
+            if (post != null) {
+                mav.addObject("post", post);
+                mav.addObject("newComment", new JaesukComment());
+                logger.info("Viewing post with id: {}, title: {}", id, post.getTitle());
+            } else {
+                logger.warn("Post with id {} not found", id);
+                mav.addObject("error", "게시글을 찾을 수 없습니다.");
+            }
+        } catch (Exception e) {
+            logger.error("Error fetching post with id: {}", id, e);
+            mav.addObject("error", "게시글을 불러오는 중 오류가 발생했습니다.");
         }
         return mav;
     }
 
-    @GetMapping("/post/{id}")
-    public ModelAndView showPost(@PathVariable Integer id) {
-        ModelAndView mav = new ModelAndView("jaesuk/post");
-        JaesukBlog post = jaesukService.getPostById(id);
-        mav.addObject("post", post);
-        logger.info("Showing post with id: {}", id);
+    @PostMapping("/post/{id}/comment")
+    public ModelAndView addComment(@PathVariable Integer id, @ModelAttribute JaesukComment comment, RedirectAttributes redirectAttributes) {
+        ModelAndView mav = new ModelAndView("redirect:/jaesuk/post/" + id);
+        try {
+            jaesukService.addCommentToPost(id, comment);
+            logger.info("Added comment to post with id: {}", id);
+            redirectAttributes.addFlashAttribute("message", "댓글이 성공적으로 추가되었습니다.");
+        } catch (Exception e) {
+            logger.error("Error adding comment to post with id: {}", id, e);
+            redirectAttributes.addFlashAttribute("error", "댓글 추가 중 오류가 발생했습니다.");
+        }
         return mav;
+    }
+
+    @PostMapping("/post/{postId}/comment/{commentId}/delete")
+    public String deleteComment(@PathVariable Integer postId, @PathVariable Long commentId, RedirectAttributes redirectAttributes) {
+        try {
+            jaesukService.deleteComment(postId, commentId);
+            redirectAttributes.addFlashAttribute("message", "댓글이 성공적으로 삭제되었습니다.");
+        } catch (Exception e) {
+            logger.error("Error deleting comment with id: {} from post with id: {}", commentId, postId, e);
+            redirectAttributes.addFlashAttribute("error", "댓글 삭제 중 오류가 발생했습니다.");
+        }
+        return "redirect:/jaesuk/post/" + postId;
     }
 
     @GetMapping("/edit/{id}")
     public ModelAndView showEditForm(@PathVariable Integer id) {
         ModelAndView mav = new ModelAndView("jaesuk/edit");
-        JaesukBlog post = jaesukService.getPostById(id);
-        mav.addObject("post", post);
-        logger.info("Showing edit form for post with id: {}", id);
+        try {
+            JaesukBlog post = jaesukService.getPostById(id);
+            if (post != null) {
+                mav.addObject("post", post);
+                logger.info("Showing edit form for post with id: {}", id);
+            } else {
+                logger.warn("Post with id {} not found for editing", id);
+                mav.setViewName("redirect:/jaesuk");
+                mav.addObject("error", "수정할 게시글을 찾을 수 없습니다.");
+            }
+        } catch (Exception e) {
+            logger.error("Error fetching post for editing with id: {}", id, e);
+            mav.setViewName("redirect:/jaesuk");
+            mav.addObject("error", "게시글을 불러오는 중 오류가 발생했습니다.");
+        }
         return mav;
     }
 
     @PostMapping("/edit/{id}")
-    public ModelAndView updatePost(@PathVariable Integer id, @ModelAttribute JaesukBlog post) {
+    public ModelAndView updatePost(@PathVariable Integer id, @ModelAttribute JaesukBlog post, RedirectAttributes redirectAttributes) {
         ModelAndView mav = new ModelAndView("redirect:/jaesuk");
         try {
-            jaesukService.updatePost(id, post);
-            logger.info("Updated post with id: {}", id);
-            mav.addObject("message", "게시글이 성공적으로 수정되었습니다.");
+            JaesukBlog updatedPost = jaesukService.updatePost(id, post);
+            if (updatedPost != null) {
+                logger.info("Updated post with id: {}", id);
+                redirectAttributes.addFlashAttribute("message", "게시글이 성공적으로 수정되었습니다.");
+            } else {
+                logger.warn("Failed to update post with id: {}", id);
+                redirectAttributes.addFlashAttribute("error", "게시글 수정에 실패했습니다.");
+            }
         } catch (Exception e) {
             logger.error("Error updating post with id: {}", id, e);
-            mav.addObject("error", "게시글 수정 중 오류가 발생했습니다.");
+            redirectAttributes.addFlashAttribute("error", "게시글 수정 중 오류가 발생했습니다.");
         }
         return mav;
     }
@@ -153,23 +152,55 @@ public class JaesukController {
     @GetMapping("/delete/{id}")
     public ModelAndView showDeleteConfirmation(@PathVariable Integer id) {
         ModelAndView mav = new ModelAndView("jaesuk/delete");
-        JaesukBlog post = jaesukService.getPostById(id);
-        mav.addObject("post", post);
-        logger.info("Showing delete confirmation for post with id: {}", id);
+        try {
+            JaesukBlog post = jaesukService.getPostById(id);
+            if (post != null) {
+                mav.addObject("post", post);
+                logger.info("Showing delete confirmation for post with id: {}", id);
+            } else {
+                logger.warn("Post with id {} not found for deletion", id);
+                mav.setViewName("redirect:/jaesuk");
+                mav.addObject("error", "삭제할 게시글을 찾을 수 없습니다.");
+            }
+        } catch (Exception e) {
+            logger.error("Error fetching post for deletion with id: {}", id, e);
+            mav.setViewName("redirect:/jaesuk");
+            mav.addObject("error", "게시글을 불러오는 중 오류가 발생했습니다.");
+        }
         return mav;
     }
 
     @PostMapping("/delete/{id}")
-    public ModelAndView deletePost(@PathVariable Integer id) {
+    public ModelAndView deletePost(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         ModelAndView mav = new ModelAndView("redirect:/jaesuk");
         try {
-            jaesukService.deletePost(id);
-            logger.info("Deleted post with id: {}", id);
-            mav.addObject("message", "게시글이 성공적으로 삭제되었습니다.");
+            boolean deleted = jaesukService.deletePost(id);
+            if (deleted) {
+                logger.info("Deleted post with id: {}", id);
+                redirectAttributes.addFlashAttribute("message", "게시글이 성공적으로 삭제되었습니다.");
+            } else {
+                logger.warn("Failed to delete post with id: {}", id);
+                redirectAttributes.addFlashAttribute("error", "게시글 삭제에 실패했습니다.");
+            }
         } catch (Exception e) {
             logger.error("Error deleting post with id: {}", id, e);
-            mav.addObject("error", "게시글 삭제 중 오류가 발생했습니다.");
+            redirectAttributes.addFlashAttribute("error", "게시글 삭제 중 오류가 발생했습니다.");
         }
         return mav;
+    }
+
+    @PostMapping("/post/{id}/like")
+    @ResponseBody
+    public ResponseEntity<?> toggleLike(@PathVariable Integer id, @RequestParam String userId) {
+        try {
+            JaesukBlog blog = jaesukService.getPostById(id);
+            boolean isLiked = jaesukLikeService.toggleLike(blog, userId);
+            long likeCount = jaesukLikeService.getLikeCount(blog);
+            logger.info("Toggled like for post id: {}, user: {}, isLiked: {}, likeCount: {}", id, userId, isLiked, likeCount);
+            return ResponseEntity.ok(Map.of("liked", isLiked, "likeCount", likeCount));
+        } catch (Exception e) {
+            logger.error("Error toggling like for post id: {}, user: {}", id, userId, e);
+            return ResponseEntity.badRequest().body("좋아요 처리 중 오류가 발생했습니다.");
+        }
     }
 }
