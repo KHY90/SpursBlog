@@ -1,78 +1,111 @@
 package com.ohgiraffers.blog.jaesuk.model.entity;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "jaesuk_blog")
 public class JaesukBlog {
 
     @Id
-    @Column(name = "blog_no")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int blogNo; // Interger랑 차이는 뭐지?
+    private Integer id;
 
-    @Column(name = "blog_title", unique = true, nullable = false)
-    private String blogTitle;
+    @Column(name = "title", nullable = false)
+    private String title;
 
-    @Column(name = "blog_content", nullable = false, length = 5000)
-    private String blogContent;
+    @Column(name = "content", nullable = false, length = 5000)
+    private String content = "";
 
     @Column(name = "creation_date")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date creationDate = new Date();
 
+    @Transient
+    private String formattedDate;
+
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<JaesukComment> jaesukComments = new ArrayList<>();
 
     public JaesukBlog() {
     }
 
-    public JaesukBlog(int blogNo, String blogTitle, String blogContent, Date createDate) {
-        this.blogNo = blogNo;
-        this.blogTitle = blogTitle;
-        this.blogContent = blogContent;
-        this.createDate = createDate;
+    public JaesukBlog(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 
-    public int getBlogNo() {
-        return blogNo;
+    public Integer getId() {
+        return id;
     }
 
-    public void setBlogNo(int blogNo) {
-        this.blogNo = blogNo;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getBlogTitle() {
-        return blogTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setBlogTitle(String blogTitle) {
-        this.blogTitle = blogTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getBlogContent() {
-        return blogContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setBlogContent(String blogContent) {
-        this.blogContent = blogContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public String getFormattedDate() {
+        return formattedDate;
+    }
+
+    public void setFormattedDate(String formattedDate) {
+        this.formattedDate = formattedDate;
+    }
+
+    public List<JaesukComment> getComments() {
+        return jaesukComments;
+    }
+
+    public void setComments(List<JaesukComment> jaesukComments) {
+        this.jaesukComments = jaesukComments;
+    }
+
+    public void addComment(JaesukComment jaesukComment) {
+        jaesukComments.add(jaesukComment);
+        jaesukComment.setBlog(this);
+    }
+
+    public void removeComment(JaesukComment jaesukComment) {
+        jaesukComments.remove(jaesukComment);
+        jaesukComment.setBlog(null);
     }
 
     @Override
     public String toString() {
         return "JaesukBlog{" +
-                "blogNo=" + blogNo +
-                ", blogTitle='" + blogTitle + '\'' +
-                ", blogContent='" + blogContent + '\'' +
-                ", createDate=" + createDate +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", creationDate=" + creationDate +
+                ", formattedDate='" + formattedDate + '\'' +
                 '}';
     }
 }

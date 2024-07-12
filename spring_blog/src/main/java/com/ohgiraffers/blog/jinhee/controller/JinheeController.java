@@ -27,14 +27,14 @@ public class JinheeController {
     public String indexJinhee() {
         return "jinhee/main";
     }
-
     @GetMapping("/post")
-    public String post(Model model) {
+    public String showPostForm(Model model) {
+        model.addAttribute("blogDTO", new BlogDTO());
         return "jinhee/post";
     }
 
     @PostMapping("/post")
-    public String postBlog(@ModelAttribute BlogDTO blogDTO, RedirectAttributes redirectAttributes) {
+    public String postBlog(@ModelAttribute("blogDTO") BlogDTO blogDTO, RedirectAttributes redirectAttributes) {
         if (blogDTO.getBlogTitle() == null || blogDTO.getBlogTitle().isEmpty() ||
                 blogDTO.getBlogContent() == null || blogDTO.getBlogContent().isEmpty()) {
             return "redirect:/jinhee/post";
@@ -48,6 +48,13 @@ public class JinheeController {
             redirectAttributes.addFlashAttribute("confirm", true);
             return "redirect:/jinhee/post";
         }
+    }
+
+    @GetMapping("/journey")
+    public String share(Model model) {
+        List<BlogDTO> blogs = jinheeService.getAllBlogs();
+        model.addAttribute("blogs", blogs);
+        return "jinhee/journey";
     }
 
     @GetMapping("/postpage")
@@ -113,10 +120,4 @@ public class JinheeController {
     }
 
 
-    @GetMapping("/journey")
-    public String share(Model model) {
-        List<BlogDTO> blogs = jinheeService.getAllBlogs();
-        model.addAttribute("blogs", blogs);
-        return "jinhee/journey";
-    }
 }

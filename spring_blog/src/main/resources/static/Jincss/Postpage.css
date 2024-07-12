@@ -83,7 +83,7 @@ body {
 .comment-input {
     display: flex;
     flex-direction: column;
-    }
+}
 
 .comment-input .form-control {
     width: 100%; /* 입력 창 너비를 100%로 설정 */
