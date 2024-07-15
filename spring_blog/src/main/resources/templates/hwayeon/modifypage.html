@@ -13,12 +13,23 @@
 
 <!-- 메인 영역 -->
 <main>
+
+<!-- 메인 영역 -->
+<main>
     <section class="services">
         <!-- 폼 시작 -->
         <div class="container my-5">
             <!-- 폼 액션과 메서드 지정 -->
+
+            <form th:action="@{/hwayeon/update}" method="post">
+<!--                <input type="hidden" th:value="${blog.blogNo}" name="blogNo"/>-->
+
             <form th:action="@{/hwayeon/update}" method="post" th:if="${blog != null}">
                 <input type="hidden" th:value="${blog.blogNo}" name="blogNo"/>
+
+            <form th:action="@{/hwayeon/update}" method="post" th:if="${blog != null}">
+                <input type="hidden" th:value="${blog.blogNo}" name="blogNo"/>
+
                 <!-- 제목 입력 필드 -->
                 <div class="mb-3">
                     <label for="blogTitle" class="form-label">제목 :</label>
@@ -29,11 +40,22 @@
                 <div class="mb-3">
                     <label for="blogContent" class="form-label">내용 :</label>
                     <textarea class="form-control" id="blogContent" name="blogContent" rows="5"
+
+                              th:text="${blog.blogContent}" placeholder="내용을 입력하세요"></textarea>
+
                               placeholder="내용을 입력하세요" th:text="${blog.blogContent}"></textarea>
+
+                              placeholder="내용을 입력하세요" th:text="${blog.blogContent}"></textarea>
+
                 </div>
                 <!-- 제출 버튼 -->
                 <button type="submit" class="btn btn-primary">수정완료</button>
             </form>
+
+            <div th:if="${blog == null}">
+                <p>블로그 정보를 불러오는데 실패했습니다.</p>
+            </div>
+
             <div th:if="${blog == null}">
                 <p>블로그 정보를 불러오는데 실패했습니다.</p>
             </div>
