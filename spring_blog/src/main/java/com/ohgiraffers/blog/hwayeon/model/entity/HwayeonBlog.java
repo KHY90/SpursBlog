@@ -16,7 +16,7 @@ public class HwayeonBlog {
     @Column(name = "blog_title", unique = true, nullable = false)
     private String blogTitle;
 
-    @Column(name = "blog_content", nullable = false, length = 5000)
+    @Column(name = "blog_content",nullable = false, length = 5000)
     private String blogContent;
 
     @Column(name = "creation_date")

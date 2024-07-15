@@ -13,6 +13,9 @@
 
 <!--메인 영역-->
 <main>
+
+<!-- 게시글 영역 -->
+
     <section class="detailPage">
         <div class="container">
             <h2>게시글 상세 내용</h2>
@@ -22,6 +25,34 @@
             <!-- 필요한 게시글 상세 정보 출력 -->
         </div>
     </section>
+
+<!--    댓글 영역  -->
+    <section class="commentsSection">
+        <div class="container">
+            <h3>댓글</h3>
+            <!-- 댓글 목록 -->
+            <div th:each="comment : ${blogDetail.comments}">
+                <p><strong th:text="${comment.author}"></strong>: <span th:text="${comment.content}"></span></p>
+            </div>
+
+            <!-- 댓글 작성 양식 -->
+            <form th:action="@{/addComment}" method="post">
+                <input type="hidden" name="blogNo" th:value="${blogDetail.blogNo}" />
+                <div>
+                    <label for="author">이름:</label>
+                    <input type="text" id="author" name="author" required />
+                </div>
+                <div>
+                    <label for="content">댓글:</label>
+                    <textarea id="content" name="content" required></textarea>
+                </div>
+                <div>
+                    <button type="submit">댓글 작성</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
 </main>
 
 

@@ -47,6 +47,13 @@
                     <textarea class="form-control" id="newBlogContent" name="blogContent" rows="5"
                               placeholder="내용을 입력하세요"></textarea>
                 </div>
+
+                <form action="multi-file" method="post" encType="multipart/form-data">
+                    파일 : <input type="file" name="multipartFiles" multiple><br>
+                    파일 설명 : <input type="text" name="multiFileDescription"><br>
+<!--                    <input type="submit">-->
+                </form>
+
                 <button type="submit" class="btn btn-primary">블로그 등록</button>
             </form>
             <!-- 등록 성공 메시지 -->

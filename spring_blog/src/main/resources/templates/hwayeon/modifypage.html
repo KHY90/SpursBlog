@@ -11,25 +11,25 @@
 <div th:insert="khyfragments/header :: headerFragment"></div>
 <!--헤더 영역-->
 
-<<<<<<< Updated upstream
-
-<!-- 메인 영역 -->
-<main>r
-=======
 <!-- 메인 영역 -->
 <main>
->>>>>>> Stashed changes
+
+<!-- 메인 영역 -->
+<main>
     <section class="services">
         <!-- 폼 시작 -->
         <div class="container my-5">
             <!-- 폼 액션과 메서드 지정 -->
-<<<<<<< Updated upstream
+
             <form th:action="@{/hwayeon/update}" method="post">
 <!--                <input type="hidden" th:value="${blog.blogNo}" name="blogNo"/>-->
-=======
+
             <form th:action="@{/hwayeon/update}" method="post" th:if="${blog != null}">
                 <input type="hidden" th:value="${blog.blogNo}" name="blogNo"/>
->>>>>>> Stashed changes
+
+            <form th:action="@{/hwayeon/update}" method="post" th:if="${blog != null}">
+                <input type="hidden" th:value="${blog.blogNo}" name="blogNo"/>
+
                 <!-- 제목 입력 필드 -->
                 <div class="mb-3">
                     <label for="blogTitle" class="form-label">제목 :</label>
@@ -40,30 +40,30 @@
                 <div class="mb-3">
                     <label for="blogContent" class="form-label">내용 :</label>
                     <textarea class="form-control" id="blogContent" name="blogContent" rows="5"
-<<<<<<< Updated upstream
+
                               th:text="${blog.blogContent}" placeholder="내용을 입력하세요"></textarea>
-=======
+
                               placeholder="내용을 입력하세요" th:text="${blog.blogContent}"></textarea>
->>>>>>> Stashed changes
+
+                              placeholder="내용을 입력하세요" th:text="${blog.blogContent}"></textarea>
+
                 </div>
                 <!-- 제출 버튼 -->
                 <button type="submit" class="btn btn-primary">수정완료</button>
             </form>
-<<<<<<< Updated upstream
-=======
+
             <div th:if="${blog == null}">
                 <p>블로그 정보를 불러오는데 실패했습니다.</p>
             </div>
->>>>>>> Stashed changes
+
+            <div th:if="${blog == null}">
+                <p>블로그 정보를 불러오는데 실패했습니다.</p>
+            </div>
         </div>
         <!-- 폼 종료 -->
     </section>
 </main>
 
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 <!--풋터영역-->
 <div th:insert="khyfragments/footer :: footerFragment"></div>
 </body>
